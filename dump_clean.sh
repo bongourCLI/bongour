@@ -59,7 +59,8 @@ do
 				if [[ "$m1" == "$m2" ]]; then
 					echo "Removing file ${arr1[$j]}"			
 					aws s3 rm s3:://ab-mongo-dumps/${arr1[$j]} &
-					unset arr1[$j]
+					delete=( ${arr1[$j]} )
+					arr1=( "${arr1[@]/$delete}" )
 				else
 					break
 				fi
