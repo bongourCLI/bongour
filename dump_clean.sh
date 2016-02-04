@@ -66,6 +66,5 @@ do
 		done
 	fi
 done
-popd
 
 
