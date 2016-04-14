@@ -1,4 +1,4 @@
-*  This contains scripts and programs for various purposes in diff languages
+*  This contains scripts and programs for various purposes in different languages
 * You can read the README.md in every source directory to understand the working.
 
 * Clone the directory as 
