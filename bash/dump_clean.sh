@@ -1,7 +1,6 @@
 #!/bin/bash
  
 #Correct file for s3 dump cleaning
-
 # Script for removing 3 days back databackups
 dt=`date +"%d-%m-%Y" -d "-3 day"`
 for i in `aws s3 ls s3://ab-mongo-dumps| grep $dt | awk '{print $4}'|sort`
