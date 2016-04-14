@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 hit_status=`curl -is tookanapp.com | grep HTTP`
 
 recipients="devops@clicklabs.in, vikas.kumar@clicklabs.in, sanjay@click-labs.com"
