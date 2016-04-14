@@ -75,6 +75,7 @@ gpgcheck=0
 enabled=1" >> /etc/yum.repos.d/mongodb-org-3.0.repo
 yum install -y mongodb-org
 sed -i.bak 's/dbPath.*/dbPath: \/apps\/mongo/g'  /etc/mongod.conf
+sed -i.bak 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
 chown -R mongod. /apps/mongo
 
 echo "installing redis"
@@ -84,7 +85,7 @@ yum install -y redis --enablerepo=epel
 echo "installing other packages"
 yum install -y telnet
 yum install -y sysstat
-yum install -y httpd
+yum install -y httpd24.x86_64
 sed -i "s/#ServerName www.example.com:80/ServerName $hostname:80/g" /etc/httpd/conf/httpd.conf
 sed -i "s/Indexes//g" /etc/httpd/conf/httpd.conf 
 
@@ -100,6 +101,12 @@ chkconfig mongod on
 chkconfig redis on
 
 service httpd start
-service mongod start
 service redis start
+service mongod start
+sleep 5
+echo 'db.createUser({user:"temp_user",pwd:"temp_pass",roles:["root"]})' | mongo admin
+sed -i.bak 's/#security:/security:\n  authorization: enabled/g' /etc/mongod.conf
+service mongod restart
+pip install pymongo
+
 } | tee /tmp/setup.log
