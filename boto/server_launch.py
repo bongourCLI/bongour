@@ -47,15 +47,15 @@ def launch(args):
 			                           MinCount = args['MinCount'], 
 			                           MaxCount = args['MaxCount'], 
 			                           KeyName = args['KeyName'],
-					                   SecurityGroups = args['SecurityGroups'], 
-					                   SecurityGroupIds = args['SecurityGroupIds'],
-									   InstanceType = args['InstanceType'], 
-									   BlockDeviceMappings = args['BlockDeviceMappings'], 
-									   Monitoring = args['Monitoring'], 
-									   SubnetId = args['SubnetId'],
-									   DisableApiTermination = args['DisableApiTermination'], 
-		 					           InstanceInitiatedShutdownBehavior = args['InstanceInitiatedShutdownBehavior'],
-		 					           EbsOptimized = args['EbsOptimized']
+			                           SecurityGroups = args['SecurityGroups'], 
+			                           SecurityGroupIds = args['SecurityGroupIds'],
+			                           InstanceType = args['InstanceType'], 
+			                           BlockDeviceMappings = args['BlockDeviceMappings'], 
+			                           Monitoring = args['Monitoring'], 
+			                           SubnetId = args['SubnetId'],
+			                           DisableApiTermination = args['DisableApiTermination'], 
+			                           InstanceInitiatedShutdownBehavior = args['InstanceInitiatedShutdownBehavior'],
+			                           EbsOptimized = args['EbsOptimized']
 										)
 		return instance
 	
@@ -73,10 +73,14 @@ def check_sg(substr):
 
 def create_sg(sg_name):
 	## To create a security group to grant ssh access and common accessibility
-	response = ec2.create_security_group(GroupName=sg_name, Description='sg_ssh for common accessibility rules')
-	for port in [22, 80, 443]:
-		response.authorize_ingress(IpProtocol="tcp",CidrIp="0.0.0.0/0",FromPort=port,ToPort=port)
-	return response.group_id
+	try :
+		response = ec2.create_security_group(GroupName=sg_name, Description='sg_ssh for common accessibility rules')
+		for port in [22, 80, 443]:
+			response.authorize_ingress(IpProtocol="tcp",CidrIp="0.0.0.0/0",FromPort=port,ToPort=port)
+		return response.group_id
+	except Exception as e : 
+		print "Error : ", e
+		exit(1)
 
 def create_key(key_name):
 	if (not key_name):
@@ -107,9 +111,9 @@ if __name__ == "__main__" :
 		ec2 = boto3.resource('ec2', region_name = regions[0])
 	except Exception as e :
 		print "Couldn't connect error: ", e
-
+	config_file = config.cfg
 	config = ConfigParser.RawConfigParser()
-	config.read('config.cfg')
+	config.read(config_file)
 	server_name = config.get('Section', 'server_name')
 	environment = config.get('Section', 'environment')
 	name = server_name + "-" + environment + "." + server_name + '.com'
