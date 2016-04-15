@@ -111,7 +111,7 @@ if __name__ == "__main__" :
 		ec2 = boto3.resource('ec2', region_name = regions[0])
 	except Exception as e :
 		print "Couldn't connect error: ", e
-	config_file = config.cfg
+	config_file = "config.cfg"
 	config = ConfigParser.RawConfigParser()
 	config.read(config_file)
 	server_name = config.get('Section', 'server_name')
