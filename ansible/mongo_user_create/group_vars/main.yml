@@ -1,0 +1,9 @@
+---    
+    service_name: mongod
+    mongo_auth_user: temp_user
+    mongo_auth_pass: temp_pass
+    mongo_admin_user: mongoadmin
+    mongo_admin_db: admin
+   
+    
+    
