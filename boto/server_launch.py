@@ -7,40 +7,24 @@ import os
 import sys
 import ConfigParser
 config_file = "config.cfg"
-regions = ['us-west-2']
+regions = ['ap-south-1']
 args = {	
     "DryRun":False,
-    "ImageId" : 'ami-c229c0a2',
+    "ImageId" : 'ami-76aac019',
     "MinCount" : 1,
     "MaxCount" : 1,
     "KeyName" : '',
     "SecurityGroups" : [],
     "SecurityGroupIds" : [],
     "InstanceType" : 't2.micro',
-    "BlockDeviceMappings" : [
-        {
-            'DeviceName': '/dev/xvdb',
-            'Ebs': {
-                'VolumeSize': 20,
-                'DeleteOnTermination': True,
-                'VolumeType': 'standard',
-                'Encrypted': False
-            },
-        },
-    ],
     "Monitoring" : {'Enabled': False},
-    "SubnetId" : 'subnet-4f659f2b',
+    "SubnetId" : '',
     "DisableApiTermination" : True,
     "InstanceInitiatedShutdownBehavior" : 'stop',
     "EbsOptimized" : False
 }
 
 def launch(args):
-	if args['BlockDeviceMappings'][0]['DeviceName'] == '/dev/xvdb' and not args['InstanceType'].startswith(('t2', 'c4', 'm4')):
-		print 'You may want to change the BlockDeviceMappings for %s instance type as it comes along\
-		        with a instance storage other than EBS.' %(args['InstanceType'])
-		exit(0)
-	
 	try:
 		instance = ec2.create_instances(
 			                           DryRun = args['DryRun'], 
@@ -51,7 +35,6 @@ def launch(args):
 			                           SecurityGroups = args['SecurityGroups'], 
 			                           SecurityGroupIds = args['SecurityGroupIds'],
 			                           InstanceType = args['InstanceType'], 
-			                           BlockDeviceMappings = args['BlockDeviceMappings'], 
 			                           Monitoring = args['Monitoring'], 
 			                           SubnetId = args['SubnetId'],
 			                           DisableApiTermination = args['DisableApiTermination'], 
@@ -76,7 +59,7 @@ def create_sg(sg_name):
 	## To create a security group to grant ssh access and common accessibility
 	try :
 		response = ec2.create_security_group(GroupName=sg_name, Description='sg_ssh for common accessibility rules')
-		for port in [22, 80, 443]:
+		for port in [22, 80, 443,3389]:
 			response.authorize_ingress(IpProtocol="tcp",CidrIp="0.0.0.0/0",FromPort=port,ToPort=port)
 		return response.group_id
 	except Exception as e : 
@@ -137,9 +120,7 @@ if __name__ == "__main__" :
 
 	args['SecurityGroupIds'].append(check_sg('ssh') or create_sg('sg_ssh'))
 
-	print args['BlockDeviceMappings'][0]['DeviceName']
+	#print args['BlockDeviceMappings'][0]['DeviceName']
 	instance = launch(args)
 	print instance[0].instance_id
 	ec2.create_tags(Resources = [instance[0].instance_id], Tags=[{'Key': 'Name', 'Value': name}])
-
-
