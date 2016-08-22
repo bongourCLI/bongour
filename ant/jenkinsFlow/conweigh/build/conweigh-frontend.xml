@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="jenkins" basedir=".">
 <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+<property environment="env"/>
 <tstamp>
         <format property="current.time"
              pattern="yyyyMMddHHmm"/>
@@ -101,7 +102,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone -b 'Rel-${PROMOTED_NUMBER}' ${repoUrl} /var/www/html/${vDirName}" />
+            <arg value="sudo git clone -b 'Rel-${env.PROMOTED_NUMBER}' ${repoUrl} /var/www/html/${vDirName}" />
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -109,7 +110,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git rebase 'Rel-${PROMOTED_NUMBER}'"/>
+            <arg value="git rebase 'Rel-${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -117,7 +118,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git tag 'v1.0.${PROMOTED_NUMBER}'"/>
+            <arg value="git tag 'v1.0.${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -158,11 +159,11 @@
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git branch 'Rel-${PROMOTED_NUMBER}'"/>
+            <arg value="git branch 'Rel-${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git push origin 'Rel-${PROMOTED_NUMBER}'"/>
+            <arg value="git push origin 'Rel-${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
