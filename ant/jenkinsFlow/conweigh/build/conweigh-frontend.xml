@@ -147,6 +147,10 @@
             <arg value="-c" />
             <arg value="sudo mkdir -p /var/www/html/${dirName}"/>
         </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo chown -R ec2-user. /var/www/html/${dirName}"/>
+        </exec>
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
