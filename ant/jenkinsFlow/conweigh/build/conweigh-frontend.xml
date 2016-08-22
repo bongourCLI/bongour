@@ -102,7 +102,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone -b 'Rel-${env.PROMOTED_NUMBER}' ${repoUrl} /var/www/html/${vDirName}" />
+            <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}" />
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -110,7 +110,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git rebase 'Rel-${env.PROMOTED_NUMBER}'"/>
+            <arg value="git rebase Rel-${promotedNumber}"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -118,7 +118,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git tag 'v1.0.${env.PROMOTED_NUMBER}'"/>
+            <arg value="git tag v1.0.${promotedNumber}"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -159,11 +159,11 @@
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git branch "Rel-"${env.PROMOTED_NUMBER}"""/>
+            <arg value="git branch Rel-${promotedNumber}"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git push origin 'Rel-${env.PROMOTED_NUMBER}'"/>
+            <arg value="git push origin Rel-${promotedNumber}"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
