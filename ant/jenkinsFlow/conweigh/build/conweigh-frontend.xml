@@ -118,7 +118,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git push -f origin master-poc"/>
+            <arg value="su ec2-user -c 'git push -f origin master-poc'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -126,7 +126,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git push origin --tags"/>
+            <arg value="su ec2-user -c 'git push origin --tags'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
