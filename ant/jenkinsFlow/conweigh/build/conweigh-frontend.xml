@@ -5,7 +5,7 @@
         <format property="current.time"
              pattern="yyyyMMddHHmm"/>
 </tstamp>
-<property file="../properties/${env}.properties"/>
+<property file="${env}.properties"/>
 
     <target name="buildEnvironment">
         <if>
@@ -36,7 +36,10 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown file="/var/www/html/${dirName}" owner="apache."/>
+        <chown owner="apache" >
+            <fileset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
         <chmod file="/var/www/html/${dirName}" perm="755"/>
     </target>  
 
@@ -80,5 +83,4 @@
         <chmod file="/var/www/html/${dirName}" perm="755"/>
         <delete dir="/var/www/html/${vDirName}"/>
     </target>
-
 </project>
