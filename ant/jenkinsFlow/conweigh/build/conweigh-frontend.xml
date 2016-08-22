@@ -139,6 +139,10 @@
                     <arg value="-c" />
                     <arg value="sudo chown -R ec2-user. /var/www/backup"/>
                 </exec>
+                 <exec executable="/bin/sh">
+                    <arg value="-c" />
+                    <arg value="sudo chown -R ec2-user. /var/www/html/${dirName}"/>
+                </exec>
                 <move todir="/var/www/backup/${dirName}${current.time}">
                     <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
                 </move>
