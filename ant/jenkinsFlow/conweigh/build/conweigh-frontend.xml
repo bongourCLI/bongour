@@ -36,7 +36,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown file="/var/www/html/${dirName}" owner="apache"/>
+        <chown file="/var/www/html/${dirName}" owner="apache."/>
         <chmod file="/var/www/html/${dirName}" perm="755"/>
     </target>  
 
