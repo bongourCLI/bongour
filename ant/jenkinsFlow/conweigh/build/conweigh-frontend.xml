@@ -106,27 +106,27 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git checkout master-poc"/>
+            <arg value="git checkout master-poc"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git rebase 'Rel-${env.PROMOTED_NUMBER}'"/>
+            <arg value="git rebase 'Rel-${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git push -f origin master-poc"/>
+            <arg value="git push -f origin master-poc"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git tag 'v1.0.${env.PROMOTED_NUMBER}'"/>
+            <arg value="git tag 'v1.0.${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git push origin --tags"/>
+            <arg value="git push origin --tags"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git tag -l"/>
+            <arg value="git tag -l"/>
         </exec>
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
@@ -155,19 +155,19 @@
         </chown>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git branch -l"/>
+            <arg value="git branch -l"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git branch 'Rel-${env.PROMOTED_NUMBER}'"/>
+            <arg value="git branch "Rel-"${env.PROMOTED_NUMBER}"""/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git push origin 'Rel-${env.PROMOTED_NUMBER}'"/>
+            <arg value="git push origin 'Rel-${env.PROMOTED_NUMBER}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git branch -l"/>
+            <arg value="git branch -l"/>
         </exec>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
