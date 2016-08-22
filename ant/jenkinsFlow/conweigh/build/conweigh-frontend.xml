@@ -135,14 +135,6 @@
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
             <then>
-                <exec executable="/bin/sh">
-                    <arg value="-c" />
-                    <arg value="sudo chown -R ec2-user. /var/www/backup"/>
-                </exec>
-                 <exec executable="/bin/sh">
-                    <arg value="-c" />
-                    <arg value="sudo chown -R ec2-user. /var/www/html/${dirName}"/>
-                </exec>
                 <move todir="/var/www/backup/${dirName}${current.time}">
                     <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
                 </move>
@@ -151,14 +143,6 @@
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo mkdir -p /var/www/html/${dirName}"/>
-        </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo chown -R ec2-user. /var/www/html/${dirName}"/>
-        </exec>
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
