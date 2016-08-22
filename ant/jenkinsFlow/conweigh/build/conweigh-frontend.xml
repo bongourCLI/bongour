@@ -104,6 +104,10 @@
             <arg value="-c" />
             <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}" />
         </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo chown -R ec2-user. /var/www/html/${vDirName}"/>
+        </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout master-poc"/>
@@ -142,9 +146,10 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown owner="apache" verbose="true">
-            <dirset dir="/var/www/html/${dirName}"/>
-        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo chown -R apache. /var/www/html/${dirName}"/>
+        </exec>
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
