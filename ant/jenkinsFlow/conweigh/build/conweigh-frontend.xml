@@ -143,6 +143,10 @@
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo mkdir -p /var/www/html/${dirName}"/>
+        </exec>
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
