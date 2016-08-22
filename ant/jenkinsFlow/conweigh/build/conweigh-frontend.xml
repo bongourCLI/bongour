@@ -39,7 +39,9 @@
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
-        <chmod dir="/var/www/html/${dirName}" perm="755" verbose="true"/>
+        <chmod  perm="755" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chmod>
     </target>  
 
     <target name="reDeployment">
