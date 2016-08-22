@@ -47,7 +47,7 @@
     <target name="reDeployment">
         <echo message="Redploying Tag ${tagName} on Live server"/>
         <if>
-            <available file="/var/www/backup-webapp" type="dir" />
+            <available file="/var/www/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
@@ -80,8 +80,96 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown file="/var/www/html/${dirName}" owner="apache"/>
-        <chmod file="/var/www/html/${dirName}" perm="755"/>
-        <delete dir="/var/www/html/${vDirName}"/>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+        <chmod  perm="755" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chmod>
+    </target>
+    
+    <target name="prodDeployment">
+        <if>
+            <available file="/var/www/backup" type="dir" />
+            <then>
+                <echo message="Backup direcotry already exists" />
+            </then>
+        <else>
+            <echo message="Creating backup directory in /var/www/..." />
+            <mkdir dir="/var/www/backup/"/>
+        </else>
+        </if>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo git clone -b 'Rel-${PROMOTED_NUMBER}' ${repoUrl} /var/www/html/${vDirName}" />
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git checkout master-poc"/>
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git rebase 'Rel-${PROMOTED_NUMBER}'"/>
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git push -f origin master-poc"/>
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git tag 'v1.0.${PROMOTED_NUMBER}'"/>
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git push origin --tags"/>
+        </exec>
+        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git tag -l"/>
+        </exec>
+        <if>
+            <available file="/var/www/html/${dirName}" type="dir" />
+            <then>
+                <move todir="/var/www/backup/${dirName}${current.time}">
+                    <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
+                </move>
+            </then>
+            <else>
+                <echo message="Directory not found...Creating directory ${dirName}"/>
+            </else>
+        </if>
+        <move todir="/var/www/html/${dirName}">
+            <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
+        </move>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+        <chmod  perm="755" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chmod>
+    </target>
+    <target name="qaSignoff">
+        <chown owner="ec2-user" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch -l"/>
+        </exec>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch 'Rel-${PROMOTED_NUMBER}'"/>
+        </exec>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git push origin 'Rel-${PROMOTED_NUMBER}'"/>
+        </exec>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch -l"/>
+        </exec>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
     </target>
 </project>
