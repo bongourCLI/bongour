@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="jenkins" basedir=".">
 <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
-<property environment="env"/>
 <tstamp>
         <format property="current.time"
              pattern="yyyyMMddHHmm"/>
@@ -46,7 +45,7 @@
     </target>  
 
     <target name="reDeployment">
-        <echo message="Redploying Tag ${tagName} on Live server"/>
+        <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
             <available file="/var/www/backup" type="dir" />
             <then>
@@ -61,7 +60,9 @@
             <arg value="-c" />
             <arg value="sudo git clone ${repoUrl} /var/www/html/${vDirName}" />
         </exec>
-        <chown file="/var/www/html/${vDirName}" owner="ec2-user"/>
+        <chown owner="ec2-user">
+            <dirset dir="/var/www/html/${vDirName}"/>
+        </chown>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
@@ -104,10 +105,9 @@
             <arg value="-c" />
             <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}" />
         </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo chown -R ec2-user. /var/www/html/${vDirName}"/>
-        </exec>
+        <chown owner="ec2-user">
+            <dirset dir="/var/www/html/${vDirName}"/>
+        </chown>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout master-poc"/>
@@ -146,19 +146,17 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo chown -R apache. /var/www/html/${dirName}"/>
-        </exec>
-        <chmod  perm="755" verbose="true">
+        <chown owner="apache">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+        <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
     </target>
     <target name="qaSignoff">
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo chown -R ec2-user. /var/www/html/${dirName}"/>
-        </exec>
+        <chown owner="ec2-user">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
@@ -175,9 +173,8 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo chown -R apache. /var/www/html/${dirName}"/>
-        </exec>
+        <chown owner="apache">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
     </target>
 </project>
