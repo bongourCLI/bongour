@@ -9,172 +9,175 @@
 
     <target name="buildEnvironment">
         <if>
-            <available file="/var/www/backup" type="dir" />
+            <available file="/apps/node-apps/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
         <else>
-            <echo message="Creating backup directory in /var/www/..." />
-            <mkdir dir="/var/www/backup" />
+            <echo message="Creating backup directory in /apps/node-apps/..." />
+            <mkdir dir="/apps/node-apps/backup" />
         </else>
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}" />
+            <arg value="sudo git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}" />
         </exec>
         <if>
-            <available file="/var/www/html/${dirName}" type="dir" />
+            <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/var/www/backup/${dirName}${current.time}">
-                    <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
+                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <move todir="/var/www/html/${dirName}">
-            <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/apps/node-apps/${dirName}">
+            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown owner="apache" verbose="true">
-            <dirset dir="/var/www/html/${dirName}"/>
-        </chown>
         <chmod  perm="755" verbose="true">
-            <dirset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+            <arg value="-c" />
+            <arg value="su pm2 -c 'NODE_ENV=${env} pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
     </target>  
 
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
-            <available file="/var/www/backup" type="dir" />
+            <available file="/apps/node-apps/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
         <else>
-            <echo message="Creating backup directory in /var/www/..." />
-            <mkdir dir="/var/www/backup/"/>
+            <echo message="Creating backup directory in /apps/node-apps..." />
+            <mkdir dir="/apps/node-apps/backup/"/>
         </else>
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} /var/www/html/${vDirName}" />
+            <arg value="sudo git clone ${repoUrl} /apps/node-apps/${vDirName}" />
         </exec>
         <chown owner="ec2-user">
-            <dirset dir="/var/www/html/${vDirName}"/>
+            <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
         </exec>
 
         <if>
-            <available file="/var/www/html/${dirName}" type="dir" />
+            <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/var/www/backup/${dirName}${current.time}/">
-                    <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}/">
+                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <move todir="/var/www/html/${dirName}">
-            <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/apps/node-apps/${dirName}">
+            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
         <chown owner="apache" verbose="true">
-            <dirset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
-            <dirset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="su pm2 -c 'NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
     </target>
     
     <target name="prodDeployment">
         <if>
-            <available file="/var/www/backup" type="dir" />
+            <available file="/apps/node-apps/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
-        <else>
-            <echo message="Creating backup directory in /var/www/..." />
-            <mkdir dir="/var/www/backup/"/>
-        </else>
+            <else>
+                <echo message="Creating backup directory in /apps/node-apps..." />
+                <mkdir dir="/apps/node-apps/backup/"/>
+            </else>
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}" />
+            <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}" />
         </exec>
         <chown owner="ec2-user">
-            <dirset dir="/var/www/html/${vDirName}"/>
+            <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git checkout master-poc"/>
+            <arg value="git checkout ${branchName}"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git rebase Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su ec2-user -c 'git push -f origin master-poc'"/>
+            <arg value="su ec2-user -c 'git push -f origin ${branchName}'"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git tag v1.0.${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="su ec2-user -c 'git push origin --tags'"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git tag -l"/>
         </exec>
         <if>
-            <available file="/var/www/html/${dirName}" type="dir" />
+            <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/var/www/backup/${dirName}${current.time}">
-                    <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
+                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <move todir="/var/www/html/${dirName}">
-            <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/apps/node-apps/${dirName}">
+            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown owner="apache">
-            <dirset dir="/var/www/html/${dirName}"/>
-        </chown>
         <chmod  perm="755">
-            <dirset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="su pm2 -c 'NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ec2-user">
-            <dirset dir="/var/www/html/${dirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git push origin Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <chown owner="apache">
-            <dirset dir="/var/www/html/${dirName}"/>
-        </chown>
     </target>
 </project>
