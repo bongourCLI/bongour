@@ -20,7 +20,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}" />
+            <arg value="git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}" />
         </exec>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
@@ -41,7 +41,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
             <arg value="-c" />
-            <arg value="su pm2 -c 'NODE_ENV=${env} pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=${env} pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>  
 
@@ -91,7 +91,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su pm2 -c 'NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     
@@ -156,7 +156,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su pm2 -c 'NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
