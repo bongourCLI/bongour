@@ -113,7 +113,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}" />
+            <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -136,7 +136,7 @@
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su ec2-user -c 'git push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git push origin --tags'"/>
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -161,7 +161,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
