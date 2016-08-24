@@ -18,6 +18,10 @@
             <mkdir dir="/apps/node-apps/backup" />
         </else>
         </if>
+        <mkdir dir="/apps/node-apps/${vDirName}"/>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
