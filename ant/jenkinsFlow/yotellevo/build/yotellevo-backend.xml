@@ -20,10 +20,6 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo mkdir -p /apps/node-apps/${vDirName}; sudo chown -R ec2-user. /apps/node-apps/${vDirName}" />
-        </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
             <arg value="git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}" />
         </exec>
         <if>
@@ -61,13 +57,14 @@
             <mkdir dir="/apps/node-apps/backup/"/>
         </else>
         </if>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} /apps/node-apps/${vDirName}" />
-        </exec>
+        <mkdir dir="/apps/node-apps/${vDirName}"/>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
+        </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
