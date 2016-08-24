@@ -101,7 +101,7 @@
     <target name="prodDeployment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
-            <then>
+            <then   >
                 <echo message="Backup direcotry already exists" />
             </then>
         <else>
