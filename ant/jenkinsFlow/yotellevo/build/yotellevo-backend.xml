@@ -33,8 +33,8 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
         </exec>
-        <copy todir="/apps/node-apps/${dirName}/app-server/node_modules">
-            <fileset dir="/apps/node-apps/${dirName}/app-server/geo-distance-js" defaultexcludes="no"/>
+        <copy todir="/apps/node-apps/${vDirName}/app-server/node_modules">
+            <fileset dir="/apps/node-apps/${vDirName}/app-server/geo-distance-js" defaultexcludes="no"/>
         </copy>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
