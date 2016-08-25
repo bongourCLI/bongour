@@ -60,9 +60,13 @@
             <mkdir dir="/var/www/backup/"/>
         </else>
         </if>
+        <mkdir dir="/var/www/html/${vDirName}"/>
+        <chown owner="ec2-user" verbose="true">
+            <dirset dir="/var/www/html/${vDirName}"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} /var/www/html/${vDirName}" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /var/www/html/${vDirName}'" />
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/var/www/html/${vDirName}"/>
