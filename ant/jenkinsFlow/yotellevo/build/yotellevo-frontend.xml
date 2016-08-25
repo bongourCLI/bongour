@@ -20,7 +20,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
         </exec>
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
@@ -118,7 +118,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - ec2-user -c 'git push -f origin master-poc'"/>
+            <arg value="sudo su - ec2-user -c 'git push -f origin master-poc'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -126,7 +126,7 @@
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - ec2-user -c 'git push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git push origin --tags'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -167,7 +167,7 @@
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - ec2-user -c 'git push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ec2-user -c 'git push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
