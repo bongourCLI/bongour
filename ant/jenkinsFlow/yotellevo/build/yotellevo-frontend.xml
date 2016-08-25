@@ -18,7 +18,7 @@
             <mkdir dir="/var/www/backup" />
         </else>
         </if>
-        <mkdir dir="/var/www/html/${vDirName}">
+        <mkdir dir="/var/www/html/${vDirName}"/>
         <chown owner="ec2-user" verbose="true">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
