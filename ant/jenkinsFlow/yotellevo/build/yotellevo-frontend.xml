@@ -122,23 +122,23 @@
         </chown>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git checkout master-poc"/>
+            <arg value="git checkout ${branchName}"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git rebase Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git push -f origin master-poc'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${vDirName}/ push -f origin ${branchName}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git tag v1.0.${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${vDirName}/ push origin --tags'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -173,13 +173,13 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec dir="/var/www/html/${dirName}/" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
