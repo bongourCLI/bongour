@@ -58,7 +58,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=test pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=test pm2 start /apps/node-apps/${dirName}/app-server/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>  
 
@@ -121,7 +121,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/app-server/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     
@@ -200,7 +200,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/app-server/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/app-server/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
