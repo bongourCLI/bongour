@@ -18,9 +18,13 @@
             <mkdir dir="/apps/node-apps/backup" />
         </else>
         </if>
+        <mkdir dir="/apps/node-apps/${vDirName}"/>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
@@ -41,7 +45,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=${env} pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/admin-panel/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>  
 
@@ -57,13 +61,14 @@
             <mkdir dir="/apps/node-apps/backup/"/>
         </else>
         </if>
-        <exec executable="/bin/sh">
-            <arg value="-c" />
-            <arg value="sudo git clone ${repoUrl} /apps/node-apps/${vDirName}" />
-        </exec>
+        <mkdir dir="/apps/node-apps/${vDirName}"/>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
+        </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
@@ -83,7 +88,7 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown owner="apache" verbose="true">
+        <chown owner="pm2" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
@@ -91,7 +96,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/admin-panel/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     
@@ -108,7 +113,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}" />
+            <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -131,7 +136,7 @@
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su ec2-user -c 'git push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git push origin --tags'"/>
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -156,7 +161,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
