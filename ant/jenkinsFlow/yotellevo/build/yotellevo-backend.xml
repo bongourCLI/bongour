@@ -26,6 +26,19 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
+        </exec>
+        <copy todir="/apps/node-apps/${dirName}/app-server/node_modules">
+            <fileset dir="/apps/node-apps/${dirName}/app-server/geo-distance-js" defaultexcludes="no"/>
+        </copy>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
@@ -43,9 +56,9 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/admin-panel/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=test pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>  
 
@@ -69,11 +82,23 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
+        </exec>
+        <copy todir="/apps/node-apps/${dirName}/app-server/node_modules">
+            <fileset dir="/apps/node-apps/${dirName}/app-server/geo-distance-js" defaultexcludes="no"/>
+        </copy>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
         </exec>
-
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
@@ -96,7 +121,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/admin-panel/app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     
@@ -119,6 +144,16 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
+        </exec>
+        <copy todir="/apps/node-apps/${dirName}/app-server/node_modules">
+            <fileset dir="/apps/node-apps/${dirName}/app-server/geo-distance-js" defaultexcludes="no"/>
+        </copy>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -130,17 +165,17 @@
             <arg value="-c" />
             <arg value="git rebase Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su ec2-user -c 'git push -f origin ${branchName}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${vDirName} push  origin ${branchName}'"/>
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git tag v1.0.${promotedNumber}"/>
         </exec>
-        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${vDirName} push  origin --tags'"/>
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -165,7 +200,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/app-server/">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 delete ${dirName}; NODE_ENV=live pm2 start -C /apps/node-apps/${dirName}/app-server/ app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
@@ -182,7 +217,7 @@
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="git push origin Rel-${promotedNumber}"/>
+            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}"/>
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
