@@ -143,7 +143,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'npm install --prefix /apps/node-apps/${vDirName}'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -189,9 +189,9 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+        <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'pm2 save; pm2 kill; NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'pm2 kill;NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
