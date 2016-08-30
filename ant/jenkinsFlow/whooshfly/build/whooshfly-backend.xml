@@ -192,7 +192,7 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'pm2 kill;NODE_ENV=live pm2 start /apps/node-apps/${dirName}/server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd  /apps/node-apps/${dirName}/; pm2 kill;NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>
     <target name="qaSignoff">
