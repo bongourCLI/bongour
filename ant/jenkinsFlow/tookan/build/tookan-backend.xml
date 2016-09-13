@@ -9,53 +9,53 @@
 
     <target name="buildEnvironment">
         <if>
-            <available file="/apps/node-apps/backup" type="dir" />
+            <available file="/stark/node-apps/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
         <else>
-            <echo message="Creating backup directory in /apps/node-apps/..." />
-            <mkdir dir="/apps/node-apps/backup" />
+            <echo message="Creating backup directory in /stark/node-apps/..." />
+            <mkdir dir="/stark/node-apps/backup" />
         </else>
         </if>
-        <mkdir dir="/apps/node-apps/${vDirName}"/>
+        <mkdir dir="/stark/node-apps/${vDirName}"/>
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /stark/node-apps/${vDirName}'" />
         </exec>
         <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /stark/node-apps/${vDirName}/ install'"/>
         </exec>
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
         <if>
-            <available file="/apps/node-apps/${dirName}" type="dir" />
+            <available file="/stark/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
-                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
+                <move todir="/stark/node-apps/backup/${dirName}${current.time}">
+                    <fileset dir="/stark/node-apps/${dirName}" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <move todir="/apps/node-apps/${dirName}">
-            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/stark/node-apps/${dirName}">
+            <fileset dir="/stark/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
         <chmod  perm="755" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}"/>
+            <dirset dir="/stark/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+        <exec executable="/bin/sh" dir="/stark/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /stark/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
     </target>  
 
@@ -197,21 +197,21 @@
     </target>
     <target name="qaSignoff">
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${dirName}"/>
+            <dirset dir="/stark/node-apps/${dirName}"/>
         </chown>
-        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
+        <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
+        <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch Rel-${promotedNumber}"/>
         </exec>
-        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
+        <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /stark/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
         </exec>
-        <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
+        <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
