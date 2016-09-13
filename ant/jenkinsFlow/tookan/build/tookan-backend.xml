@@ -26,12 +26,9 @@
             <arg value="-c" />
             <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} -b ${branchName} /stark/node-apps/${vDirName}'" />
         </exec>
-        <chown owner="pm2">
-            <dirset dir="/stark/node-apps/${vDirName}"/>
-        </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /stark/node-apps/${vDirName}/ install'"/>
+            <arg value="npm -C /stark/node-apps/${vDirName}/ install"/>
         </exec>
         <chown owner="ubuntu">
             <dirset dir="/stark/node-apps/${vDirName}"/>
@@ -55,7 +52,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/stark/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="cd /stark/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z'" />
+            <arg value="cd /stark/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z'" />
         </exec>
     </target>  
 
