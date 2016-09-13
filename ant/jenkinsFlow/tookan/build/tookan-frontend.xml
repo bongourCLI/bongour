@@ -19,12 +19,12 @@
         </else>
         </if>
         <mkdir dir="/var/www/html/${vDirName}"/>
-        <chown owner="ec2-user" verbose="true">
+        <chown owner="ubuntu" verbose="true">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
+            <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
         </exec>
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
@@ -166,7 +166,7 @@
         </chmod>
     </target>
     <target name="qaSignoff">
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
@@ -179,7 +179,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ubuntu -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
