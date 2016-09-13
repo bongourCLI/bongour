@@ -19,12 +19,12 @@
         </else>
         </if>
         <mkdir dir="/stark/node-apps/${vDirName}"/>
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /stark/node-apps/${vDirName}'" />
+            <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} -b ${branchName} /stark/node-apps/${vDirName}'" />
         </exec>
         <chown owner="pm2">
             <dirset dir="/stark/node-apps/${vDirName}"/>
@@ -33,7 +33,7 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /stark/node-apps/${vDirName}/ install'"/>
         </exec>
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
         <if>
@@ -55,7 +55,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/stark/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /stark/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="cd /stark/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z'" />
         </exec>
     </target>  
 
@@ -72,12 +72,12 @@
         </else>
         </if>
         <mkdir dir="/apps/node-apps/${vDirName}"/>
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
+            <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -86,7 +86,7 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
         </exec>
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
@@ -196,7 +196,7 @@
         </exec>
     </target>
     <target name="qaSignoff">
-        <chown owner="ec2-user">
+        <chown owner="ubuntu">
             <dirset dir="/stark/node-apps/${dirName}"/>
         </chown>
         <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
@@ -209,7 +209,7 @@
         </exec>
         <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git -C /stark/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ubuntu -c 'git -C /stark/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/stark/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
