@@ -2,7 +2,7 @@
 {
 disk="/dev/xvdb"
 lv_size=20 ##in GB
-server=SERVER
+server=gasco
 env=ENV
 hostname="$server-$env.$server.com"
 swap_size="2048" #in MB

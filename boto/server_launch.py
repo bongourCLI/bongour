@@ -80,6 +80,7 @@ def create_sg(sg_name):
                 response.authorize_ingress(IpProtocol="tcp", CidrIp="112.196.55.64/28", FromPort=port, ToPort=port)
                 response.authorize_ingress(IpProtocol="tcp", CidrIp="115.248.185.130/32", FromPort=port, ToPort=port)
                 response.authorize_ingress(IpProtocol="tcp", CidrIp="182.19.85.146/32", FromPort=port, ToPort=port)
+                response.authorize_ingress(IpProtocol="tcp", CidrIp="52.202.38.111/32", FromPort=port, ToPort=port)
         
             response.authorize_ingress(IpProtocol="tcp",CidrIp="0.0.0.0/0",FromPort=3000,ToPort=3005)    
             return response.group_id
@@ -132,24 +133,30 @@ if __name__ == "__main__" :
         except Exception as e :
             print "Couldn't connect error: ", e
         name = serverName + "-" + environment + "." + serverName + '.com'
+        flag=0
         if (not keyName) :
             while True :
                 sgs = ec2.key_pairs.all()
                 for i in sgs:
                     if i.name in serverName :
                         args['KeyName'] = i.name
+                        print "Key with name"+ i.name +" already present"
+                        flag=1
                         break
-                print 'You have not specified the key. Do you want to create a new one (y/n)? : ',
-                choice = raw_input()
-                if choice == 'y' or choice == 'Y':
-                    print 'Enter key name : ',
-                    keyName = raw_input()
-                    createKey(keyName)
-                    args['KeyName'] = keyName
+                if ( flag==0):
+                    print 'You have not specified the key. Do you want to create a new one (y/n)? : ',
+                    choice = raw_input()
+                    if choice == 'y' or choice == 'Y':
+                        print 'Enter key name : ',
+                        keyName = raw_input()
+                        createKey(keyName)
+                        args['KeyName'] = keyName
+                        break   
+                    elif choice == 'n' or choice == 'N':
+                        print 'Cannot proceed without a key..exiting',
+                        exit(0)
+                elif (flag==1):
                     break
-                elif choice == 'n' or choice == 'N':
-                    print 'Cannot proceed without a key..exiting',
-                    exit(0)
         else :
             args['KeyName'] = keyName
         args['SecurityGroupIds'].append(check_sg('ssh') or create_sg('sg_ssh'))
