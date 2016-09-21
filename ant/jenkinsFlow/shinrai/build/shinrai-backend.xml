@@ -31,7 +31,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${vDirName}/; npm install'"/>
+            <arg value="su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
