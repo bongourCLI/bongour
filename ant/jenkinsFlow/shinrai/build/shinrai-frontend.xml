@@ -40,6 +40,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -90,6 +91,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -158,6 +160,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
