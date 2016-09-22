@@ -164,7 +164,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${vDirName} push  origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${vDirName} push  origin --tags; git -C /apps/node-apps/${vDirName} push origin master'"/>
         </exec>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
