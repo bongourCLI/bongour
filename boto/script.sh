@@ -41,6 +41,7 @@ popd
 echo "Updating Yum Updates"
 
 yum update
+yum groupinstall 'Development Tools'
 
 echo "installing node and pm2" 
 pushd /apps/lib

@@ -2,8 +2,8 @@
 {
 disk="/dev/xvdb"
 lv_size=20 ##in GB
-server=gasco
-env=ENV
+server=SERVER
+env=dev
 hostname="$server-$env.$server.com"
 swap_size="2048" #in MB
 lv_size=$((lv_size-1))
@@ -41,6 +41,7 @@ popd
 echo "Updating Yum Updates"
 
 yum update
+yum groupinstall 'Development Tools'
 
 echo "installing node and pm2" 
 pushd /apps/lib

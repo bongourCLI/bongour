@@ -30,7 +30,7 @@ then
     SSH="ssh -tt -o ConnectTimeout=5 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
     cat $server-$env.pem.pub | $SSH -i $server.pem $user@$IP "sudo su - pm2 -c 'mkdir -p /apps/pm2/.ssh && cat >  /apps/pm2/.ssh/authorized_keys && chmod -R 700 /apps/pm2/.ssh' ; exit"
 fi
-
+mv $server* ~/Google\ Drive/my_keys/
 sed -i.bak 's|server=.*|server=SERVER|g' script.sh
 sed -i.bak 's|env=.*|env=ENV|g' script.sh
 rm -rf serverInfo.txt
