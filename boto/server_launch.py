@@ -12,7 +12,7 @@ args = {
      "SecurityGroups" : [],
      "SecurityGroupIds" : [],
      "UserData" : '',
-     "InstanceType" : 't2.small',
+     "InstanceType" : 't2.medium',
      "BlockDeviceMappings" : [
          {
              'DeviceName': '/dev/xvda',
