@@ -58,7 +58,7 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
@@ -68,6 +68,7 @@
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
+        
     </target>  
 
     <target name="reDeployment">
