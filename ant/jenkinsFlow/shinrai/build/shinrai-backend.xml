@@ -54,9 +54,12 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chmod  perm="755" verbose="true">
+        <chmod  perm="775" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install bcrypt'"/>
