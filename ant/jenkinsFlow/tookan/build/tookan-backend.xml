@@ -26,10 +26,10 @@
             <arg value="-c" />
             <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} -b ${branchName} /stark/node-apps/${vDirName}'" />
         </exec>
-        <exec executable="/bin/sh">
+        <!--exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="npm -C /stark/node-apps/${vDirName}/ install"/>
-        </exec>
+        </exec-->
         <chown owner="ubuntu">
             <dirset dir="/stark/node-apps/${vDirName}"/>
         </chown>
@@ -79,10 +79,10 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
+        <!--exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-        </exec>
+        </exec-->
         <chown owner="ubuntu">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -180,10 +180,10 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
+        <!--exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
-        </exec>
+        </exec-->
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
