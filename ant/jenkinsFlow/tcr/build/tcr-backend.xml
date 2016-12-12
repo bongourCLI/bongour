@@ -53,9 +53,6 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
