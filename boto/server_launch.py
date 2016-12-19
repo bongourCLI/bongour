@@ -12,7 +12,7 @@ args = {
      "SecurityGroups" : [],
      "SecurityGroupIds" : [],
      "UserData" : '',
-     "InstanceType" : 't2.medium',
+     "InstanceType" : 't2.small',
      "BlockDeviceMappings" : [
          {
              'DeviceName': '/dev/xvda',
@@ -79,8 +79,8 @@ def create_sg(sg_name):
             for port in [22, 27017, 3306]:
                 response.authorize_ingress(IpProtocol="tcp", CidrIp="112.196.55.64/28", FromPort=port, ToPort=port)
                 response.authorize_ingress(IpProtocol="tcp", CidrIp="115.248.185.130/32", FromPort=port, ToPort=port)
-                response.authorize_ingress(IpProtocol="tcp", CidrIp="182.19.85.146/32", FromPort=port, ToPort=port)
-                response.authorize_ingress(IpProtocol="tcp", CidrIp="52.202.38.111/32", FromPort=port, ToPort=port)
+                response.authorize_ingress(IpProtocol="tcp", CidrIp="118.185.61.224/27", FromPort=port, ToPort=port)
+                response.authorize_ingress(IpProtocol="tcp", CidrIp="35.154.39.27/32", FromPort=port, ToPort=port)
         
             response.authorize_ingress(IpProtocol="tcp",CidrIp="0.0.0.0/0",FromPort=3000,ToPort=3005)    
             return response.group_id
