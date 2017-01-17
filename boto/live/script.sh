@@ -3,7 +3,7 @@
 disk="/dev/xvdb"
 lv_size=20 ##in GB
 server=SERVER
-env=dev
+env=ENV
 hostname="$server-$env.$server.com"
 swap_size="2048" #in MB
 lv_size=$((lv_size-1))
@@ -138,6 +138,7 @@ sudo service mongod restart
 echo "installing other packages"
 yum install ant ant-contrib
 yum install -y telnet
+yum groupinstall 'Development Tools'
 yum install -y sysstat
 yum install -y httpd24
 sed -i "s/#ServerName www.example.com:80/ServerName $hostname:80/g" /etc/httpd/conf/httpd.conf
