@@ -1,2 +1,0 @@
-PublicIP=35.165.238.79
-InstanceID=i-08e78321388dfd0a1
