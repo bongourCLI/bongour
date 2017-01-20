@@ -57,7 +57,7 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0755 ." />
+            <arg line="-R 0777 ." />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -120,7 +120,7 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0755 ." />
+            <arg line="-R 0777 ." />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -200,7 +200,7 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0755 ." />
+            <arg line="-R 0777 ." />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
