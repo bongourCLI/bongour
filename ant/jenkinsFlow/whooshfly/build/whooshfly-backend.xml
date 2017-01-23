@@ -53,7 +53,7 @@
         <chmod  perm="775" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
+        <exec executable="chmod" dir="/apps/node-apps/uploads/" failonerror="true">
             <arg line="-R 0777 ." />
         </exec>
         <chown owner="ec2-user">
@@ -119,9 +119,6 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0777 ." />
-        </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -199,9 +196,6 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0777 ." />
-        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
