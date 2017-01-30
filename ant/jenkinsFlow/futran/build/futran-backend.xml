@@ -53,7 +53,7 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chown owner="ec2-user:pm2">
+        <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
