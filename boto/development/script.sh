@@ -135,6 +135,19 @@ echo "export MONGO_DBNAME_LIVE='$server-live'" >> /apps/pm2/.bashrc
 sed -i.bak 's/#security:/security:\n  authorization: enabled/g' /etc/mongod.conf
 sudo service mongod restart
 
+echo "Installation of Imagemagick and graphicsmagick"
+yum install -y gcc libpng libjpeg libpng-devel libjpeg-devel ghostscript libtiff libtiff-devel freetype freetype-devel
+wget ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/1.3/GraphicsMagick-1.3.21.tar.gz
+tar zxvf GraphicsMagick-1.3.21.tar.gz
+cd GraphicsMagick-1.3.21
+./configure --enable-shared
+make
+make install
+sudo ln -s /usr/local/bin/gm /usr/bin/
+gm version
+yum install -y php-pear gcc php-devel php-pear
+yum install -y ImageMagick ImageMagick-devel
+
 echo "installing other packages"
 yum install ant ant-contrib
 yum install -y telnet
