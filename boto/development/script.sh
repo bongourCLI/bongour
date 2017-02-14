@@ -111,6 +111,7 @@ y
 y
 y
 EOF
+echo "export MYSQL_USER=root">> /apps/pm2/.bashrc
 echo "export MYSQL_PASS=$password">> /apps/pm2/.bashrc
 
 export LC_ALL=C
@@ -163,6 +164,17 @@ ln -s /apps/www /var/www
 mv /var/log /apps/logs/var_log
 ln -s /apps/logs/var_log /var/log
 #chown -R mysql. /apps/mysql
+
+echo "Installing phpmyadmin"
+rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -e `rpm -qa | grep php`
+rpm -e `rpm -qa | grep httpd`
+yum install -y php56
+yum --enablerepo=remi install -y phpmyadmin
+sed -i 's/local/all granted/g'  /etc/httpd/conf.d/phpMyAdmin.conf
+sed -i 's/Deny from All/Allow from All/g'  /etc/httpd/conf.d/phpMyAdmin.conf
+sed -i 's/Allow from None/#Allow from None/g'  /etc/httpd/conf.d/phpMyAdmin.conf
 
 chkconfig httpd on
 chkconfig mongod on
