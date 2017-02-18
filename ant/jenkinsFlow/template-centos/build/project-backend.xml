@@ -124,7 +124,7 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-                <if>
+        <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
                 <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
@@ -209,7 +209,7 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-                <if>
+        <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
                 <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
