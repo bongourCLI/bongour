@@ -150,9 +150,9 @@ yum install -y php-pear gcc php-devel php-pear
 yum install -y ImageMagick ImageMagick-devel
 
 echo "installing other packages"
-yum install ant ant-contrib
+yum install -y ant ant-contrib
 yum install -y telnet
-yum groupinstall 'Development Tools'
+yum groupinstall -y 'Development Tools'
 yum install -y sysstat
 yum install -y httpd24
 sed -i "s/#ServerName www.example.com:80/ServerName $hostname:80/g" /etc/httpd/conf/httpd.conf
