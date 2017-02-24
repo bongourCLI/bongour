@@ -107,6 +107,14 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sed -i 's|web.onesignal.auto.3a3b4186-8f32-4bbf-a810-be3f3be590a9|web.onesignal.auto.69735df3-8f8c-40d7-a01f-205a16828de8|g' /var/www/html/${dirName}/app/js/app.js" />
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sed -i 's|ce870864-6fb1-487c-8f2f-67f584369b90|5433f97a-b90d-4f6f-a507-e0aa0c7f462b|g' /var/www/html/${dirName}/app/js/app.js" />
+        </exec>    
     </target>
     
     <target name="prodDeployment">
@@ -176,6 +184,14 @@
         <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sed -i 's|web.onesignal.auto.3a3b4186-8f32-4bbf-a810-be3f3be590a9|web.onesignal.auto.69735df3-8f8c-40d7-a01f-205a16828de8|g' /var/www/html/${dirName}/app/js/app.js" />
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sed -i 's|ce870864-6fb1-487c-8f2f-67f584369b90|5433f97a-b90d-4f6f-a507-e0aa0c7f462b|g' /var/www/html/${dirName}/app/js/app.js" />
+        </exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ec2-user">
