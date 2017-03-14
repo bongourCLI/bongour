@@ -61,12 +61,17 @@ chown pm2. /apps/pm2/.bashrc
 chown pm2. /apps/node-apps
 popd 
 
-echo "Custom access to pm2"
-echo $hostname | grep -E 'dev|poc' 
-if [[ $? == 0 ]];then
-    echo 'granting sudo access to pm2'
-    usermod -G wheel pm2
-fi
+echo "granting sudo access to pm2 user"
+usermod -G wheel pm2
+
+echo "NVM installation"
+su - pm2 -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.25.0/install.sh | bash"
+su - pm2 -c "source /apps/pm2/.bashrc"
+su - pm2 -c "nvm install v4.4.7 && nvm alias default v4.4.7"
+
+echo "Enabling logrotate for pm2"
+su - pm2 -c 'sudo env PATH=$PATH:/apps/pm2/.nvm/versions/node/*/bin pm2 logrotate -u pm2'
+sed -i '1s/^/\/apps\/pm2\/.pm2\/logs\/*.log /' /etc/logrotate.d/pm2-pm2
 
 echo "Creating swap file"
 dd if=/dev/zero of=/apps/.swap bs=1M count=$swap_size
@@ -219,6 +224,9 @@ AV6/C7rsoaKh/LqISlUpr70ITbV3f1na09Ai1jIjV64BFWn2IQ99
 chmod -R 700 /home/ec2-user/.ssh
 chown -R ec2-user:ec2-user /home/ec2-user/.ssh
 popd
+
+echo "Installing BOTO3"
+pip install boto3
 
 chkconfig httpd on
 chkconfig mongod on

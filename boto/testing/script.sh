@@ -160,6 +160,7 @@ yum install -y telnet
 yum groupinstall -y 'Development Tools'
 yum install -y sysstat
 yum install -y httpd24
+
 echo "Installing NMON"
 wget http://sourceforge.net/projects/nmon/files/nmon16e_mpginc.tar.gz
 tar -xzvf nmon16e_mpginc.tar.gz
@@ -167,6 +168,8 @@ cp nmon_x86_64_centos7 /usr/bin/
 chmod a+x /usr/bin/nmon_x86_64_centos7 
 ln -s /usr/bin/nmon_x86_64_centos7 /usr/bin/nmon
 rm -f nmon_*
+
+
 sed -i "s/#ServerName www.example.com:80/ServerName $hostname:80/g" /etc/httpd/conf/httpd.conf
 sed -i "s/Indexes//g" /etc/httpd/conf/httpd.conf 
 
