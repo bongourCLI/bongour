@@ -183,7 +183,7 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chown owner="ubuntu">
+        <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec executable="/bin/sh">
