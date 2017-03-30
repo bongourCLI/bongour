@@ -40,16 +40,13 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/var/www//backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-        </exec>
     </target>  
 
     <target name="reDeployment">
@@ -94,16 +91,13 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/var/www//backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-        </exec>
     </target>
     
     <target name="prodDeployment">
@@ -166,16 +160,13 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/var/www//backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-        </exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ec2-user">
