@@ -40,8 +40,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
-        <chown owner="apache" verbose="true">
+        <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
@@ -91,8 +90,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
-        <chown owner="apache" verbose="true">
+        <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
@@ -160,8 +158,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
-        <chown owner="apache">
+        <chown owner="www-data">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755">
@@ -188,7 +185,7 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <chown owner="apache">
+        <chown owner="www-data">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
     </target>
