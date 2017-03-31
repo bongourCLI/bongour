@@ -33,10 +33,6 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
         </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${vDirName}/; pwd; pm2 ls'"/>
-        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -54,21 +50,23 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chmod  perm="775" verbose="true">
+        <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chown owner="pm2">
+        <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install bcrypt'"/>
-        </exec>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
-        
+	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
+        </exec>
     </target>  
 
     <target name="reDeployment">
@@ -122,23 +120,19 @@
         <chown owner="pm2" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <chmod  perm="775" verbose="true">
+        <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${dirName}"/>
-        </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install bcrypt'"/>
-        </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install joi'"/>
-        </exec>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
     
@@ -210,23 +204,19 @@
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
         </exec>
-        <chmod  perm="775" verbose="true">
+        <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${dirName}"/>
-        </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install bcrypt'"/>
-        </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install joi'"/>
-        </exec>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
     <target name="qaSignoff">
