@@ -49,11 +49,11 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|web.onesignal.auto.3a3b4186-8f32-4bbf-a810-be3f3be590a9|web.onesignal.auto.26339961-08fd-44e5-8197-7ce61bb1927b|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|web.onesignal.auto.54eebb47-16d1-4f2f-8c9e-9bb7522bb051|web.onesignal.auto.26339961-08fd-44e5-8197-7ce61bb1927b|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|ce870864-6fb1-487c-8f2f-67f584369b90|87199a18-edc0-4682-8f69-6dd4da1f4886|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|47b66cf3-2793-41b2-832e-7d38f07c5cd2|87199a18-edc0-4682-8f69-6dd4da1f4886|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
