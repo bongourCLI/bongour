@@ -36,6 +36,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${dirName}"/>
+        </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
