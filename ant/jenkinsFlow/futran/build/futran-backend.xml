@@ -65,9 +65,8 @@
         <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}/log/"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset file="/apps/node-apps/${dirName}/log/futrun.log"/>
-        </chmod>
+        <chmod file="/apps/node-apps/${dirName}/log/futrun.log" perm="777"/>
+        
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
