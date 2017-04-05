@@ -63,7 +63,10 @@
             <dirset dir="/apps/node-apps/${dirName}/uploads"/>
         </chmod>
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/futrun.log"/>
+            <dirset dir="/apps/node-apps/${dirName}/log/"/>
+        </chmod>
+        <chmod  perm="777" verbose="true">
+            <dirset file="/apps/node-apps/${dirName}/log/futrun.log"/>
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
