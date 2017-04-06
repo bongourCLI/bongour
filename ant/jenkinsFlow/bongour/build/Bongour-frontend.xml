@@ -19,15 +19,12 @@
         </else>
         </if>
         <mkdir dir="/var/www/html/${vDirName}"/>
-
-
-
-        <chown owner="ubuntu" verbose="true">
+        <chown owner="ec2-user" verbose="true">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /var/www/html/${vDirName}'" />
         </exec>
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
@@ -65,14 +62,14 @@
         </else>
         </if>
         <mkdir dir="/var/www/html/${vDirName}"/>
-        <chown owner="ubuntu" verbose="true">
+        <chown owner="ec2-user" verbose="true">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu -c 'git clone ${repoUrl} /var/www/html/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /var/www/html/${vDirName}'" />
         </exec>
-        <chown owner="ubuntu">
+        <chown owner="ec2-user">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
@@ -115,14 +112,14 @@
         </else>
         </if>
         <mkdir dir="/var/www/html/${vDirName}"/>
-        <chown owner="ubuntu-user" verbose="true">
+        <chown owner="ec2-user" verbose="true">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /var/www/html/${vDirName}'" />
         </exec>
-        <chown owner="ubuntu-user">
+        <chown owner="ec2-user">
             <dirset dir="/var/www/html/${vDirName}"/>
         </chown>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
@@ -135,7 +132,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu-user -c 'git -C /var/www/html/${vDirName}/ push -f origin ${branchName}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${vDirName}/ push -f origin ${branchName}'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -143,7 +140,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - 2-user -c 'git -C /var/www/html/${vDirName}/ push origin --tags'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${vDirName}/ push origin --tags'"/>
         </exec>
         <exec dir="/var/www/html/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
@@ -172,7 +169,7 @@
         </chmod>
     </target>
     <target name="qaSignoff">
-        <chown owner="ubuntu-user">
+        <chown owner="ec2-user">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
@@ -185,7 +182,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu-user -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
             <arg value="-c" />
