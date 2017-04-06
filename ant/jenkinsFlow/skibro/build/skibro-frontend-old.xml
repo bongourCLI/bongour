@@ -40,17 +40,12 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
-        <chown owner="apache" verbose="true">
+        <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-	<exec executable="/bin/sh" dir="/var/www/backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-	</exec>
     </target>  
 
     <target name="reDeployment">
@@ -95,17 +90,12 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
-        <chown owner="apache" verbose="true">
+        <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-	<exec executable="/bin/sh" dir="/var/www/backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-	</exec>
     </target>
     
     <target name="prodDeployment">
@@ -168,17 +158,12 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <echo file="/var/www/html/${dirName}/env.json" message="${url}" append="true"/>
-        <chown owner="apache">
+        <chown owner="www-data">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-	<exec executable="/bin/sh" dir="/var/www/backup">
-            <arg value="-c" />
-            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
-	</exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ubuntu">
@@ -200,7 +185,7 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
-        <chown owner="apache">
+        <chown owner="www-data">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
     </target>

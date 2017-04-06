@@ -50,6 +50,10 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
+	<exec executable="/bin/sh" dir="/var/www/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
+	</exec>
     </target>  
 
     <target name="reDeployment">
@@ -101,6 +105,10 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
+	<exec executable="/bin/sh" dir="/var/www/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
+	</exec>
     </target>
     
     <target name="prodDeployment">
@@ -170,6 +178,10 @@
         <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
+	<exec executable="/bin/sh" dir="/var/www/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
+	</exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ubuntu-user">
