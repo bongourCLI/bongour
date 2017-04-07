@@ -172,7 +172,7 @@
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
         <echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
-        <chown owner="apache">
+        <chown owner="www-data">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <chmod  perm="755">
