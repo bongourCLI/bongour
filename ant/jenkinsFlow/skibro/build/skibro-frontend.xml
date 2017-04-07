@@ -40,6 +40,10 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
         <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -82,6 +86,10 @@
                 <move todir="/var/www/backup/${dirName}${current.time}/">
                     <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
                 </move>
+		<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
@@ -150,6 +158,10 @@
                 <move todir="/var/www/backup/${dirName}${current.time}">
                     <fileset dir="/var/www/html/${dirName}" defaultexcludes="no"/>
                 </move>
+		<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
+        <chown owner="apache" verbose="true">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
