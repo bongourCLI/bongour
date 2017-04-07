@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="jenkins" basedir=".">
 <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
@@ -7,6 +6,7 @@
              pattern="yyyyMMddHHmm"/>
 </tstamp>
 <property file="../properties/${env}.properties"/>
+
     <target name="buildEnvironment">
         <if>
             <available file="/var/www/backup" type="dir" />
@@ -52,6 +52,7 @@
             <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
 	</exec>
     </target>  
+
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
@@ -79,6 +80,7 @@
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
         </exec>
+
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
             <then>
