@@ -233,6 +233,10 @@
                 </exec>
             </then>
         </if>
+	 </exec>
+        <exec executable="chmod" dir="/apps/node-apps/${dirName}/Config" failonerror="true">
+            <arg line="-R 0777 ." />
+        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
