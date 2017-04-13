@@ -202,15 +202,15 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|web.onesignal.auto.26339961-08fd-44e5-8197-7ce61bb1927b|web.onesignal.auto.528b6caf-1e6b-4608-b4e6-faa03f146a9c|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|web.onesignal.auto.54eebb47-16d1-4f2f-8c9e-9bb7522bb051|web.onesignal.auto.528b6caf-1e6b-4608-b4e6-faa03f146a9c|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|87199a18-edc0-4682-8f69-6dd4da1f4886|bdf0c425-3c9d-4057-bcb7-8fcf4110ff13|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|47b66cf3-2793-41b2-832e-7d38f07c5cd2|bdf0c425-3c9d-4057-bcb7-8fcf4110ff13|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|https://test-instantconsult-com.onesignal.com|https://webgp-instantconsult-com.onesignal.com|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|https://dev-instantconsult-com.onesignal.com|https://webgp-instantconsult-com.onesignal.com|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh" dir="/var/www/backup">
             <arg value="-c" />
