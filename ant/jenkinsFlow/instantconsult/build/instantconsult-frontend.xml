@@ -202,11 +202,11 @@
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|web.onesignal.auto.26339961-08fd-44e5-8197-7ce61bb1927b|web.onesignal.auto.69735df3-8f8c-40d7-a01f-205a16828de8|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|web.onesignal.auto.26339961-08fd-44e5-8197-7ce61bb1927b|web.onesignal.auto.528b6caf-1e6b-4608-b4e6-faa03f146a9c|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|87199a18-edc0-4682-8f69-6dd4da1f4886|5433f97a-b90d-4f6f-a507-e0aa0c7f462b|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|87199a18-edc0-4682-8f69-6dd4da1f4886|bdf0c425-3c9d-4057-bcb7-8fcf4110ff13|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
