@@ -142,7 +142,7 @@
         </exec>
     </target>
     
-    <target name="prodDeployment">
+   <target name="prodDeployment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
             <then>
@@ -213,12 +213,9 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-            <arg line="-R 0777 ." />
-        </exec>
-        <exec executable="chmod" dir="/apps/node-apps/${dirName}/config" failonerror="true">
-            <arg line="-R 0777 ." />
-        </exec>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
