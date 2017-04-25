@@ -59,6 +59,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/"/>
+        </chmod>
         
        
         <chmod file="/apps/node-apps/${dirName}" perm="777"/>
@@ -129,9 +132,9 @@
         </chmod>
         
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
+            <dirset dir="/apps/node-apps/${dirName}/"/>
         </chmod>
-        <chmod file="/apps/node-apps/${dirName}/logs" perm="777"/>
+        <chmod file="/apps/node-apps/${dirName}/" perm="777"/>
         
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -216,9 +219,9 @@
         </chmod>
         
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
+            <dirset dir="/apps/node-apps/${dirName}/"/>
         </chmod>
-        <chmod file="/apps/node-apps/${dirName}/logs" perm="777"/>
+        <chmod file="/apps/node-apps/${dirName}/" perm="777"/>
         
         <exec executable="/bin/sh">
             <arg value="-c" />
