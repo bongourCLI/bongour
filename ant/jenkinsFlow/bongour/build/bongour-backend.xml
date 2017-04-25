@@ -60,9 +60,7 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
-        </chmod>
+       
         <chmod file="/apps/node-apps/${dirName}" perm="777"/>
         
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
