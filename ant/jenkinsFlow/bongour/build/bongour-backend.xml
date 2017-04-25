@@ -59,13 +59,11 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/bongour.log" perm="777"/>
+        <chmod file="/apps/node-apps/${dirName}/logs/bongour.log" perm="777"/>
         
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -131,13 +129,11 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/bongour.log" perm="777"/>
+        <chmod file="/apps/node-apps/${dirName}/logs/bongour.log" perm="777"/>
         
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -220,13 +216,11 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        
         <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads/futrun.log"/>
+            <dirset dir="/apps/node-apps/${dirName}/logs/"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/bongour.log" perm="777"/>
+        <chmod file="/apps/node-apps/${dirName}/logs/bongour.log" perm="777"/>
         
         <exec executable="/bin/sh">
             <arg value="-c" />
