@@ -53,8 +53,15 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/tookan-server/logs/"/>
+        </chmod>
+        
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
+        </chown>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${dirName}/tookan-server/logs"/>
         </chown>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
