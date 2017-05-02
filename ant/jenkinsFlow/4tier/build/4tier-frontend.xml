@@ -202,7 +202,7 @@
         </chown>
     </target>
     <target name="stagingSignoff">
-        <chown owner="ec2-user">
+        <chown owner="ec2-user" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
         <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
