@@ -201,4 +201,28 @@
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
     </target>
+    <target name="stagingSignoff">
+        <chown owner="ec2-user">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch -l"/>
+        </exec>
+        <exec dir="/var/www/html/${dirName}/" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch Rel-${promotedNumber}"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'git -C /var/www/html/${dirName}/ push origin Rel-${promotedNumber}'"/>
+        </exec>
+        <exec dir="/var/www/html/${dirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git branch -l"/>
+        </exec>
+        <chown owner="apache">
+            <dirset dir="/var/www/html/${dirName}"/>
+        </chown>
+    </target>
 </project>

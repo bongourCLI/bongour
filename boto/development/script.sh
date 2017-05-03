@@ -191,8 +191,8 @@ sed -i 's/Allow from None/#Allow from None/g'  /etc/httpd/conf.d/phpMyAdmin.conf
 echo "Jenkins config"
 pushd /home/ec2-user/.ssh
 touch config deploy.pem
-echo "IdendityFile /home/ec2-user/.ssh/deploy.pem
-StrcitHostKeyChecking=no" >> /home/ec2-user/.ssh/config
+echo "IdentityFile /home/ec2-user/.ssh/deploy.pem
+StrictHostKeyChecking=no" >> /home/ec2-user/.ssh/config
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdolGmvoo8Vz6QIpaDEHlFrsXwJ2Ifcfwd/hTD57bhzOeTk2yhidXneoyXbigrDZHukZwpmu7dqFy6BAXH2QbA7dzhhkVaB9FHpG/69lTVouSe+rGWunaTn9pS+UBlXSznZqBqixBk40m+29EZkdx1PdOZpF+QNggWTfETjQ9/fmcoq47M9zQFate3047bXOG/pKLGtDf3dQjbBIAiX8eU5XHlB4dryVcf3zbg0w3eubEzekOz4uUSolmc6Le/sd2EQ2b7ugOpigZI8MQmBPerqPtrqwqPK7D1gxLtvqnLady9ltJTSDh5IoW/TTtCc2glZLZeUEuxOsBPCnNbGNfD jenkins" >> /home/ec2-user/.ssh/authorized_keys
 echo "-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAqImHRzkkcikwkKb8L1eAWyVyiEsx57aryGIgNP+uUmf4Cvw9
