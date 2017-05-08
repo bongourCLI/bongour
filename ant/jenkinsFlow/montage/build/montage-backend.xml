@@ -31,9 +31,9 @@
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
         
-        <mkdir dir="/apps/node-apps/${vDirName}/logs/">
+        <mkdir dir="/apps/node-apps/${vDirName}/logs" />
         <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}/logs/">
+            <dirset dir="/apps/node-apps/${vDirName}/logs" />
         </chown>
         
         <exec executable="/bin/sh">
