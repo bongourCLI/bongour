@@ -207,6 +207,12 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        
+        <mkdir dir="/apps/node-apps/${vDirName}/log" />
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}/log" />
+        </chown>
+        
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
