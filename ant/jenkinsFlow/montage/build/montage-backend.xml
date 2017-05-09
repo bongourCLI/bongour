@@ -36,7 +36,7 @@
             <dirset dir="/apps/node-apps/${vDirName}/log" />
         </chown>
         <chmod  perm="755" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+            <dirset dir="/apps/node-apps/${dirName}/log"/>
         </chmod>
         <exec executable="/bin/sh">
             <arg value="-c"/>
