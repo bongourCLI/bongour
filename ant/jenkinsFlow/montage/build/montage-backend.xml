@@ -35,7 +35,9 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}/log" />
         </chown>
-        
+        <chmod  perm="755" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
@@ -212,7 +214,9 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}/log" />
         </chown>
-        
+        <chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
