@@ -36,6 +36,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+	<chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
@@ -83,6 +86,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+	<chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
@@ -155,6 +161,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
+	<chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
         <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git checkout ${branchName}"/>
