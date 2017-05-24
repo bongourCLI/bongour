@@ -59,7 +59,7 @@
         
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 kill; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
