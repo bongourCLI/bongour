@@ -31,7 +31,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/tookan-server/ install'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -56,17 +56,9 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-         <if>
-            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
-            <then>
-                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
-                    <arg line="-R 0777 ." />
-                </exec>
-            </then>
-        </if>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/tookan-server/; pm2 delete ${dirName}; NODE_ENV=test pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -99,7 +91,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/tookan-server/ install'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -128,12 +120,10 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
+        
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/tookan-server/; pm2 delete ${dirName}; NODE_ENV=live pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -207,17 +197,15 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/tookan-server'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
+        
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/tookan-server/; pm2 delete ${dirName}; NODE_ENV=live pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
