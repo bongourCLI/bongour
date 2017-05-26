@@ -54,7 +54,7 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
-        <chmod  perm="755" verbose="true">
+        <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         <chown owner="ec2-user">
@@ -131,7 +131,7 @@
         <chown owner="pm2" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <chmod  perm="755" verbose="true">
+        <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
        
@@ -220,7 +220,7 @@
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
         </exec>
-        <chmod  perm="755">
+        <chmod  perm="777">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         
