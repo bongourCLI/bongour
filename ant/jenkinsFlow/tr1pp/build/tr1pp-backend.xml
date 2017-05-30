@@ -34,7 +34,7 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
         </exec>
-        <chown owner="pm2">
+        <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
         <if>
