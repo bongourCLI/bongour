@@ -24,8 +24,8 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <!--<arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />-->
-            <arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <!--<arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />-->
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
