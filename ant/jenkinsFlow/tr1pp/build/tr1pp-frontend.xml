@@ -62,7 +62,7 @@
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server -- dist -p 3002 --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3002  --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 
          <exec executable="/bin/sh" dir="/apps/node-apps/">
