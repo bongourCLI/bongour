@@ -9,13 +9,13 @@
 
     <target name="buildEnvironment">
         <if>
-            <available file="/apps/node-apps/backup-frontend" type="dir" />
+            <available file="/apps/node-apps/backup" type="dir" />
             <then>
                 <echo message="Backup direcotry already exists" />
             </then>
         <else>
             <echo message="Creating backup directory in /apps/node-apps/..." />
-            <mkdir dir="/apps/node-apps/backup-frontend" />
+            <mkdir dir="/apps/node-apps/backup" />
         </else>
         </if>
         <mkdir dir="/apps/node-apps/${vDirName}"/>
@@ -34,7 +34,6 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
-            <!--<arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ run build:prod'"/>-->
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -63,7 +62,7 @@
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3002  --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004  --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 
          <exec executable="/bin/sh" dir="/apps/node-apps/">
@@ -96,8 +95,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3005  --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -218,8 +216,7 @@
 
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3005  --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
