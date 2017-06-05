@@ -34,6 +34,7 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
