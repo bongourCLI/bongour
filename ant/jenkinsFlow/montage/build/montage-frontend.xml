@@ -30,14 +30,6 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        
-        <mkdir dir="/apps/node-apps/${vDirName}/log" />
-        <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}/log" />
-        </chown>
-        <chmod  perm="755" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log"/>
-        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ run build:prod'"/>
