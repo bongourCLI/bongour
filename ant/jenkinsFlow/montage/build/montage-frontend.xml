@@ -32,7 +32,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c '-C /apps/node-apps/${vDirName}/ npm run build:prod'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ run build:prod'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
