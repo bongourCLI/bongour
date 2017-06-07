@@ -57,7 +57,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|https://dev-instantconsult-com.onesignal.com|https://test-instantconsult-com.onesignal.com|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|https://dev-instantconsult-com.os.tc|https://test-instantconsult-com.os.tc|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh" dir="/var/www/backup">
             <arg value="-c" />
@@ -125,7 +125,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|https://test-instantconsult-com.onesignal.com|https://webgp-instantconsult-com.onesignal.com|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|https://test-instantconsult-com.os.tc|https://webgp-instantconsult-com.os.tc|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh" dir="/var/www/backup">
             <arg value="-c" />
@@ -210,7 +210,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sed -i 's|https://dev-instantconsult-com.onesignal.com|https://webgp-instantconsult-com.onesignal.com|g' /var/www/html/${dirName}/app/js/app.js" />
+            <arg value="sed -i 's|https://dev-instantconsult-com.os.tc|https://webgp-instantconsult-com.os.tc|g' /var/www/html/${dirName}/app/js/app.js" />
         </exec>
         <exec executable="/bin/sh" dir="/var/www/backup">
             <arg value="-c" />
