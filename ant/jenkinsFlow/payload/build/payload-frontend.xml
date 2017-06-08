@@ -257,7 +257,7 @@
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'sudo git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
