@@ -72,7 +72,7 @@
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
         </exec>
-
+	<echo file="/apps/node-apps/${dirName}/dist/env.js" message="${url}" append="true"/>
          <exec executable="/bin/sh" dir="/apps/node-apps/">
             <arg value="-c" />
             <arg value="sudo chown -R pm2. /apps/node-apps/" />
