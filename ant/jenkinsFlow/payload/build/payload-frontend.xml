@@ -30,16 +30,10 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-	<exec executable="/bin/sh" dir="/apps/node-apps/">
-            <arg value="-c" />
-            <arg value="sudo chown -R pm2. /apps/node-apps/${vDirName}" />
-        </exec>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-	    <arg value="su - pm2 -c 'bower install'"/>
-	    <arg value="su - pm2 -c 'gulp build'"/>
-	<arg value="su - pm2 -c 'cd /apps/node-apps/${vdirName}/; pm2 delete ${vdirName}; pm2 start http-server --name ${vdirName} -- dist -p 3004 '" />
+
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -64,6 +58,20 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'bower install'"/> 
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'gulp build'"/>
+        </exec>
+
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
+        </exec>
 
          <exec executable="/bin/sh" dir="/apps/node-apps/">
             <arg value="-c" />
