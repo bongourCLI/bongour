@@ -30,13 +30,7 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            
-           
-	   
-
-        </exec>
+        
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
