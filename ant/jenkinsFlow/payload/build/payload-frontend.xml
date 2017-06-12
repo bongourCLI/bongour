@@ -139,6 +139,14 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'bower install'"/> 
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'gulp build'"/>
+        </exec>
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
@@ -223,9 +231,14 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
 
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+        
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
+            <arg value="su - pm2 -c 'bower install'"/> 
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'gulp build'"/>
         </exec>
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
