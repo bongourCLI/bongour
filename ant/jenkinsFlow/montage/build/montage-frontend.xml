@@ -241,7 +241,7 @@
         </exec>
     </target>
     <target name="qaSignoff">
-        <chown owner="ec2-user">
+        <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
