@@ -252,6 +252,9 @@
             <arg value="-c" />
             <arg value="git branch Rel-${promotedNumber}"/>
         </exec>
+	<chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${dirName}/.git"/>
+        </chown>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'sudo git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
