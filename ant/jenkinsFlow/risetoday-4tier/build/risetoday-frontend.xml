@@ -6,7 +6,6 @@
              pattern="yyyyMMddHHmm"/>
 </tstamp>
 <property file="../properties/${env}.properties"/>
-
     <target name="buildEnvironment">
         <if>
             <available file="/var/www/backup" type="dir" />
@@ -40,6 +39,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -50,8 +50,7 @@
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
         </exec>
-    </target>
-
+    </target>  
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
@@ -79,7 +78,6 @@
             <arg value="-c" />
             <arg value="git checkout ${tagName}"/>
         </exec>
-
         <if>
             <available file="/var/www/html/${dirName}" type="dir" />
             <then>
@@ -94,6 +92,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -105,7 +104,7 @@
             <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-
+    
     <target name="prodDeployment">
         <if>
             <available file="/var/www/backup" type="dir" />
@@ -166,6 +165,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
@@ -261,6 +261,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<echo file="/var/www/html/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
