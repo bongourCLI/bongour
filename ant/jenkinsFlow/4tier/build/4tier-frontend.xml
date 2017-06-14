@@ -50,7 +50,7 @@
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
         </exec>
-    </target>  
+    </target>
 
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
@@ -105,7 +105,7 @@
             <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    
+
     <target name="prodDeployment">
         <if>
             <available file="/var/www/backup" type="dir" />

@@ -24,7 +24,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -35,9 +35,6 @@
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
-        </chown>
-        <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
@@ -59,17 +56,14 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/futrun.log" perm="777"/>
-        
+       
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -131,14 +125,7 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/futrun.log" perm="777"/>
-        
+       
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -220,17 +207,14 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads/futrun.log"/>
-        </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/log/"/>
-        </chmod>
-        <chmod file="/apps/node-apps/${dirName}/log/futrun.log" perm="777"/>
         
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -238,6 +222,10 @@
         </exec>
     </target>
     <target name="qaSignoff">
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R ec2-user. /apps/node-apps/${dirName}" />
+        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
