@@ -29,13 +29,6 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-	<mkdir dir="/apps/node-apps/${vDirName}/uploads"/>
-	<chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}/uploads"/>
-        </chown>	 
-	<chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
@@ -68,9 +61,20 @@
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
+	<chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
+        </exec>
+	<mkdir dir="/apps/node-apps/${vDirName}/uploads"/>	 
+	<chmod  perm="777" verbose="true">
+            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
+        </chmod>
+	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
         </exec>
     </target>  
 
@@ -228,6 +232,10 @@
         </exec>
     </target>
     <target name="qaSignoff">
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R ec2-user. /apps/node-apps/${dirName}" />
+        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
@@ -247,5 +255,10 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
+	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
+        </exec>
+
     </target>
 </project>
