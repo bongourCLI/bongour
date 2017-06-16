@@ -245,5 +245,10 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
+	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
+        </exec>
+
     </target>
 </project>
