@@ -56,25 +56,18 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-
+       
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
-	<chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
-        </chown>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
-        </exec>
-	<mkdir dir="/apps/node-apps/${vDirName}/uploads"/>	 
-	<chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
-	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
         </exec>
     </target>  
 
@@ -132,10 +125,10 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        
+       
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -207,14 +200,6 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-	<mkdir dir="/apps/node-apps/${vDirName}/uploads"/>	 
-	<chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
-        </chmod>
-	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
-        </exec>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
@@ -225,15 +210,15 @@
         
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=TEST pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
-        </exec>
-	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
         </exec>
     </target>
     <target name="qaSignoff">
