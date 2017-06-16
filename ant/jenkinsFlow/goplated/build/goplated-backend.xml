@@ -231,6 +231,7 @@
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
+            <mkdir dir="/apps/node-apps/${vDirName}/uploads"/>
 	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
         <arg value="-c" />
         <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
