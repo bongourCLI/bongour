@@ -32,7 +32,7 @@
             <then>
                 <mkdir dir="/apps/node-apps/backup/${dirName}${current.time}" />
                 <move todir="/apps/node-apps/backup/${dirName}${current.time}/">
-                    <fileset dir="/apps/node-apps/${dirName}/!(node_modules)" />
+                    <fileset dir="/apps/node-apps/${dirName}/" defaultexcludes="node_modules" />
                 </move>
             </then>
             <else>
