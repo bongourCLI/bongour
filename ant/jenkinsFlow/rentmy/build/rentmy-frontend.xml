@@ -27,60 +27,57 @@
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
             <!--<arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />-->
         </exec>
-        <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
-        </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-        </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
-        </exec>
-        <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
-        </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
-                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
+                <mkdir dir="/apps/node-apps/backup/${dirName}${current.time}" />
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}/">
+                    <fileset dir="/apps/node-apps/${dirName}/" />
+                        <exclude name="/apps/node-apps/${dirName}/node_modules"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
+                <mkdir dir="/apps/node-apps/backup/${dirName}" />
             </else>
         </if>
-        <move todir="/apps/node-apps/${dirName}">
+        <move todir="/apps/node-apps/${dirName}/">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/apps/node-apps/${dirName}/env.js" message="${url}" append="true"/>
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install'"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install http-server -g'"/>
+        </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
         </exec>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
         </exec>
-
          <exec executable="/bin/sh" dir="/apps/node-apps/">
             <arg value="-c" />
             <arg value="sudo chown -R pm2. /apps/node-apps/" />
         </exec>
-
-
-	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
+	       <exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
+        </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps">
+            <arg value="-c" />
+            <arg value="sudo rm -rf ${vDirName}"/>
         </exec>
     </target>
 
@@ -168,7 +165,6 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
-
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -199,47 +195,53 @@
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
-                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
-                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
+                <mkdir dir="/apps/node-apps/backup/${dirName}${current.time}" />
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}/">
+                    <fileset dir="/apps/node-apps/${dirName}/!(node_modules)" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
+                <mkdir dir="/apps/node-apps/backup/${dirName}" />
             </else>
         </if>
-        <move todir="/apps/node-apps/${dirName}">
-            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/apps/node-apps/${dirName}/">
+            <fileset dir="/apps/node-apps/${vDirName}/*" defaultexcludes="no"/>
         </move>
+        <echo file="/apps/node-apps/${dirName}/env.js" message="${url}" append="true"/>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
-            <arg value="sudo su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="sudo su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install http-server -g'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
         </exec>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
         </exec>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/">
            <arg value="-c" />
            <arg value="sudo chown -R pm2. /apps/node-apps/" />
        </exec>
-
-	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
+	      <exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
+        </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps">
+            <arg value="-c" />
+            <arg value="sudo rm -rf ${vDirName}"/>
         </exec>
     </target>
     <target name="qaSignoff">
