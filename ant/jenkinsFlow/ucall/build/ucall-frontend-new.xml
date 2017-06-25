@@ -32,7 +32,8 @@
             <then>
                 <mkdir dir="/apps/node-apps/backup/${dirName}${current.time}" />
                 <move todir="/apps/node-apps/backup/${dirName}${current.time}/">
-                    <fileset dir="/apps/node-apps/${dirName}/!(node_modules)" defaultexcludes="no"/>
+                    <fileset dir="/apps/node-apps/${dirName}/" />
+                        <exclude name="/apps/node-apps/${dirName}/node_modules"/>
                 </move>
             </then>
             <else>
@@ -41,7 +42,7 @@
             </else>
         </if>
         <move todir="/apps/node-apps/${dirName}/">
-            <fileset dir="/apps/node-apps/${vDirName}/*" defaultexcludes="no"/>
+            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
         <echo file="/apps/node-apps/${dirName}/env.js" message="${url}" append="true"/>
         <chmod  perm="755" verbose="true">
