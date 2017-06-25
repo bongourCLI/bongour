@@ -50,10 +50,10 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install'"/>
-        </exec>
+        <!--<exec executable="/bin/sh">-->
+        <!--    <arg value="-c"/>-->
+        <!--    <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install'"/>-->
+        <!--</exec>-->
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install http-server -g'"/>
