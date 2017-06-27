@@ -29,13 +29,13 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
- <!--       <exec executable="/bin/sh">-->
- <!--           <arg value="-c"/>-->
- <!--           <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/sp/tookan-server/ install'"/>-->
-	<!--</exec>-->
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
+	</exec>
 	<exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'sh -C /apps/node-apps/${vDirName}/firstTimeStart.sh'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/admin-panel/ install'"/>
 	</exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
