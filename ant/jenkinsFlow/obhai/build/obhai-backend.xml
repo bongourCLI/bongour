@@ -99,11 +99,11 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/customerApp/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/admin-panel/ install'"/>
         </exec>
 	<exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/sp/tookan-server/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -135,12 +135,12 @@
        
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/customerApp/; pm2 delete customerApp; NODE_ENV=live pm2 start server.js --name 'customerApp' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/admin-panel/; pm2 delete admin-panel; NODE_ENV=live pm2 start app.js --name 'admin-panel' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 
 	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-	<arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/sp/tookan-server/; pm2 delete tookan-server; NODE_ENV=live pm2 start app.js --name 'tookan-server' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+	<arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/app-server/; pm2 delete app-server; NODE_ENV=live pm2 start app.js --name 'app-server' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 
 
@@ -216,7 +216,11 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/admin-panel/ install'"/>
+        </exec>
+	<exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
         </exec>
         <chmod  perm="777">
             <dirset dir="/apps/node-apps/${dirName}"/>
@@ -224,11 +228,11 @@
         
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/customerApp/; pm2 delete customerApp; NODE_ENV=live pm2 start server.js --name 'customerApp' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/admin-panel/; pm2 delete admin-panel; NODE_ENV=live pm2 start app.js --name 'admin-panel' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh">
             <arg value="-c" />
-	<arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/sp/tookan-server/; pm2 delete tookan-server; NODE_ENV=live pm2 start app.js --name 'tookan-server' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+	<arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/app-server/; pm2 delete app-server; NODE_ENV=live pm2 start app.js --name 'app-server' --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
