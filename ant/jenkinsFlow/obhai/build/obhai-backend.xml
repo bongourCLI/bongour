@@ -57,7 +57,7 @@
         <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <exec executable="/bin/sh" dir="/path/to/folder">
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
         <arg value="-c" />
         <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
         </exec>
