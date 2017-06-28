@@ -39,7 +39,7 @@
 	    </exec>
 	    <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'sh -C /apps/node-apps/${vDirName}/firstTimeStart.sh install'"/>
+            <arg value="su - pm2 -c 'sh -C /apps/node-apps/${vDirName}/firstTimeStart.sh'"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -230,6 +230,10 @@
 	<exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/app-server/'"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'sh -C /apps/node-apps/${vDirName}/firstTimeStart.sh'"/>
         </exec>
         <chmod  perm="777">
             <dirset dir="/apps/node-apps/${dirName}"/>
