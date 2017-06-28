@@ -225,11 +225,11 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/admin-panel/ install'"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/admin-panel/'"/>
         </exec>
 	<exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/app-server/'"/>
         </exec>
         <chmod  perm="777">
             <dirset dir="/apps/node-apps/${dirName}"/>
