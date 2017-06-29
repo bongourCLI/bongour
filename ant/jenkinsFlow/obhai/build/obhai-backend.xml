@@ -33,6 +33,8 @@
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/app-server/ install'"/>
 	    </exec>
+	    <mkdir dir="/apps/node-apps/${vDirName}/app-server/logs"/>
+	    <mkdir dir="/apps/node-apps/${vDirName}/app-server/notification_logs"/>
 	    <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/admin-panel/ install'"/>
@@ -231,6 +233,8 @@
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/app-server/'"/>
         </exec>
+        <mkdir dir="/apps/node-apps/${vDirName}/app-server/logs"/>
+	    <mkdir dir="/apps/node-apps/${vDirName}/app-server/notification_logs"/>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'sh -C /apps/node-apps/${vDirName}/firstTimeStart.sh'"/>
