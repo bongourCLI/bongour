@@ -57,9 +57,17 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
         
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/admin/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/admin/; pm2 delete ${dirName}-admin; NODE_ENV=test pm2 start app.js --name ${dirName}-admin --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/customer/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/customer/; pm2 delete ${dirName}-customer; NODE_ENV=test pm2 start app.js --name ${dirName}-customer --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/technician/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/technician/; pm2 delete ${dirName}-technician; NODE_ENV=test pm2 start app.js --name ${dirName}-technician --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -204,9 +212,17 @@
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
         
-        <exec executable="/bin/sh">
+         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/admin/">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/admin/; pm2 delete ${dirName}-admin; NODE_ENV=client pm2 start app.js --name ${dirName}-admin --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/customer/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/customer/; pm2 delete ${dirName}-customer; NODE_ENV=client pm2 start app.js --name ${dirName}-customer --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/technician/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/technician/; pm2 delete ${dirName}-technician; NODE_ENV=client pm2 start app.js --name ${dirName}-technician --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
