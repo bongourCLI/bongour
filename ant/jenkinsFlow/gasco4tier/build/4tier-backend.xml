@@ -26,13 +26,13 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
+	 <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/node_modules /apps/node-apps/${vDirName}/'" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -102,13 +102,13 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
+	<exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/node_modules /apps/node-apps/${vDirName}/'" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -215,13 +215,13 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/node_modules /apps/node-apps/${vDirName}/'" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
-        </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
@@ -235,7 +235,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=liveStage1 pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -324,13 +324,13 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
+	<exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/node_modules /apps/node-apps/${vDirName}/'" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
-        </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
@@ -344,7 +344,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=liveStage1 pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
