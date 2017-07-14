@@ -32,6 +32,7 @@
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+        </exec>
              <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/scheduler/ install'"/>
@@ -64,6 +65,7 @@
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
             <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/scheduler/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/scheduler/; NODE_ENV=test pm2 start app.js --name scheduler --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
