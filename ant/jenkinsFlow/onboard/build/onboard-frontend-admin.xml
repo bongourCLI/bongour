@@ -6,6 +6,7 @@
              pattern="yyyyMMddHHmm"/>
 </tstamp>
 <property file="../properties/${env}.properties"/>
+
     <target name="buildEnvironment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
@@ -24,6 +25,7 @@
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <!--<arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />-->
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -31,6 +33,8 @@
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
+
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -52,23 +56,37 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <chown owner="ec2-user">
+        <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-       
+
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
         </exec>
-        <exec executable="/bin/sh" dir="/apps/node-apps/">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
         </exec>
+
+          <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3005 '" />
+        </exec>
+
+         <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
+
+
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
-    </target>  
+    </target>
+
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
@@ -123,7 +141,7 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-       
+
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -133,7 +151,7 @@
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    
+
     <target name="prodDeployment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
@@ -153,7 +171,7 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
-        
+
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -201,25 +219,33 @@
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        
-        <exec executable="/bin/sh">
+
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
         </exec>
+
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
+        </exec>
+
         <exec executable="/bin/sh" dir="/apps/node-apps/">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/" />
-        </exec>
+           <arg value="-c" />
+           <arg value="sudo chown -R pm2. /apps/node-apps/" />
+       </exec>
+
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    <target name="qaSignoff">
+        <target name="qaSignoff">
 	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
         <arg value="-c" />
         <arg value="sudo chown -R ec2-user. /apps/node-apps/${dirName}" />
