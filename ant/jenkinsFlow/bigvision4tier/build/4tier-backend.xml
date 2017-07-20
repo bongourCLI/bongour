@@ -250,7 +250,11 @@
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    <target name="qaSignoff">
+     <target name="qaSignoff">
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R ec2-user. /apps/node-apps/${dirName}" />
+        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
@@ -270,6 +274,11 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
+	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
+        </exec>
+
     </target>
     <target name="stagingSignoff">
         <if>
