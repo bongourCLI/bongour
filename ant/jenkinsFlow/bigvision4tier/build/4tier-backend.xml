@@ -56,6 +56,10 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
@@ -225,6 +229,10 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
@@ -334,6 +342,10 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
