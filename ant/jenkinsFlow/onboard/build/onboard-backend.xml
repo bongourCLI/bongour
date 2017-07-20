@@ -26,6 +26,10 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -155,7 +159,10 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
-        
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
