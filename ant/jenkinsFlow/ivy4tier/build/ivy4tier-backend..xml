@@ -56,6 +56,10 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
@@ -80,7 +84,7 @@
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
-    </target>  
+    </target>
 
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
@@ -153,7 +157,7 @@
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    
+
     <target name="prodDeployment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
@@ -173,7 +177,7 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
-        
+
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -215,6 +219,10 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
@@ -242,7 +250,11 @@
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
-    <target name="qaSignoff">
+     <target name="qaSignoff">
+	<exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R ec2-user. /apps/node-apps/${dirName}" />
+        </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
@@ -262,6 +274,11 @@
             <arg value="-c" />
             <arg value="git branch -l"/>
         </exec>
+	 <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}" />
+        </exec>
+
     </target>
     <target name="stagingSignoff">
         <if>
@@ -282,7 +299,7 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
-        
+
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
@@ -324,6 +341,10 @@
         <move todir="/apps/node-apps/${dirName}">
             <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <arg value="-c" />
+        <arg value="sudo chown -R pm2. /apps/node-apps/" />
+        </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
@@ -344,7 +365,7 @@
         </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=staging pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
