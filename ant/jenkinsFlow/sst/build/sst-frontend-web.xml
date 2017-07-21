@@ -62,7 +62,7 @@
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:test'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:dev'"/>
         </exec>
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
