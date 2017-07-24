@@ -216,7 +216,11 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/customerApp/'"/>
+        </exec>
+         <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/sp/tookan-server'"/>
         </exec>
         <chmod  perm="777">
             <dirset dir="/apps/node-apps/${dirName}"/>
