@@ -220,6 +220,9 @@
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
         </exec>
         <chmod  perm="755">
