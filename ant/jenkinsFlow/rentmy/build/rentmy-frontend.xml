@@ -67,7 +67,7 @@
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/${dirName}/node_modules`"/>
         </exec>
-        <exec executable="/bin/sh">
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install'"/>
         </exec>
