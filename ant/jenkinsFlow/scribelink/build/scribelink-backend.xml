@@ -196,7 +196,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - ubuntu -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
