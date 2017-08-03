@@ -40,6 +40,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
+        <echo file="/var/www/html/${dirName}/js/common_path.js" message="${url}" append="true"/>
         <chown owner="www-data" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
