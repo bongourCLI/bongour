@@ -58,7 +58,7 @@
         </chown>
         <exec executable="/bin/sh" dir="/apps/node-apps/">
             <arg value="-c" />
-            <arg value="cp newrelic.js ../${dirName}/" />
+            <arg value="'cd /apps/node-apps/; cp newrelic.js ../${dirName}/'" />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
