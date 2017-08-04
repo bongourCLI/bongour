@@ -205,6 +205,10 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="cp /apps/node-apps/newrelic.js /apps/node-apps/${dirName}/" />
+        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ubuntu -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=production pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -306,6 +310,10 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="cp /apps/node-apps/newrelic.js /apps/node-apps/${dirName}/" />
+        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ubuntu -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=staging pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
