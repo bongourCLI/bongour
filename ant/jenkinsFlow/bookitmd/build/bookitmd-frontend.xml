@@ -61,9 +61,9 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh" dir="/apps/node-apps/">
+        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}">
             <arg value="-c" />
-            <arg value="sudo chown -R pm2. /apps/node-apps/" />
+            <arg value="sudo chown -R pm2:pm2 /apps/node-apps/${dirName}" />
         </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
