@@ -31,7 +31,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'sudo npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="sudo su - ubuntu -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
         </exec>
         <chown owner="ubuntu">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -56,9 +56,13 @@
         <chown owner="ubuntu">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="cp /apps/node-apps/newrelic.js /apps/node-apps/${dirName}/" />
+        </exec>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - ubuntu -c 'cd /apps/node-apps/${dirName}/; sudo pm2 delete ${dirName}; NODE_ENV=live sudo pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - ubuntu -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -122,7 +126,7 @@
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - ubuntu -c 'cd /apps/node-apps/${dirName}/; sudo pm2 delete ${dirName}; NODE_ENV=live sudo pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - ubuntu -c 'cd /apps/node-apps/${dirName}/; sudo pm2 delete ${dirName}; NODE_ENV=production sudo pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -196,14 +200,18 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - ubuntu -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="cp /apps/node-apps/newrelic.js /apps/node-apps/${dirName}/" />
+        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ubuntu -c 'cd /apps/node-apps/${dirName}/; sudo pm2 delete ${dirName}; NODE_ENV=live sudo pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="sudo su - ubuntu -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=production pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
@@ -229,6 +237,90 @@
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
+        </exec>
+    </target>
+    <target name="stagingSignoff">
+        <if>
+            <available file="/apps/node-apps/backup" type="dir" />
+            <then>
+                <echo message="Backup direcotry already exists" />
+            </then>
+            <else>
+                <echo message="Creating backup directory in /apps/node-apps..." />
+                <mkdir dir="/apps/node-apps/backup/"/>
+            </else>
+        </if>
+        <mkdir dir="/apps/node-apps/${vDirName}"/>
+        <chown owner="ubuntu">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ubuntu -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
+        </exec>
+        
+        <chown owner="ubuntu">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git checkout ${branchName}"/>
+        </exec>
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git rebase Rel-${promotedNumber}"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ubuntu -c 'git -C /apps/node-apps/${vDirName} push  origin ${branchName}'"/>
+        </exec>
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git tag v1.0.${promotedNumber}"/>
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ubuntu -c 'git -C /apps/node-apps/${vDirName} push  origin --tags'"/>
+        </exec>
+        <exec dir="/apps/node-apps/${vDirName}" executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="git tag -l"/>
+        </exec>
+        <if>
+            <available file="/apps/node-apps/${dirName}" type="dir" />
+            <then>
+                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
+                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
+                </move>
+            </then>
+            <else>
+                <echo message="Directory not found...Creating directory ${dirName}"/>
+            </else>
+        </if>
+        <move todir="/apps/node-apps/${dirName}">
+            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
+        </move>
+        <chown owner="ubuntu">
+            <dirset dir="/apps/node-apps/${dirName}"/>
+        </chown>
+        <exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="sudo su - ubuntu -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+        </exec>
+        <chmod  perm="755">
+            <dirset dir="/apps/node-apps/${dirName}"/>
+        </chmod>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="cp /apps/node-apps/newrelic.js /apps/node-apps/${dirName}/" />
+        </exec>
+        <exec executable="/bin/sh">
+            <arg value="-c" />
+            <arg value="sudo su - ubuntu -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=staging pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+        </exec>
+    <exec executable="/bin/sh" dir="/apps/node-apps/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>
 </project>
