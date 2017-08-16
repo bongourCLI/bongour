@@ -203,6 +203,10 @@
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
+	<exec executable="/bin/sh" dir="/var/www/backup">
+            <arg value="-c" />
+            <arg value="sudo rm -rf `ls -t /var/www/backup/|awk 'NR>5'`"/>
+	</exec>
     </target>
     <target name="stagingSignoff">
         <if>
