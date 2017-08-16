@@ -264,7 +264,7 @@
         <move todir="/var/www/html/${dirName}">
             <fileset dir="/var/www/html/${vDirName}/" defaultexcludes="no"/>
         </move>
-	<echo file="/var/www/html/${dirName}/dist/env.js" message="${url}" append="true"/>
+	    <echo file="/var/www/html/${dirName}/dist/env.js" message="${url}" append="true"/>
         <chown owner="apache">
             <dirset dir="/var/www/html/${dirName}"/>
         </chown>
