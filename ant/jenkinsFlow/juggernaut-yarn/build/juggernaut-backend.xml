@@ -33,7 +33,10 @@
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cp -R /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
         </exec>
-        <exec executable="/bin/sh" dir="/apps/node-apps/">
+         <chown owner="pm2">
+            <dirset dir="/apps/node-apps"/>
+        </chown>
+        <exec executable="/bin/sh" dir="/apps/node-apps">
             <arg value="-c"/>
             <arg value="sudo su - pm2 -c 'yarn'"/>
         </exec>
