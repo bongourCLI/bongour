@@ -35,7 +35,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/ install'"/>
+            <arg value="su - pm2 -c 'yarn -C /apps/node-apps/ '"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
