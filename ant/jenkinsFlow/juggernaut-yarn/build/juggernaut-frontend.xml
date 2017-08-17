@@ -30,13 +30,13 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
+        <exec executable="/bin/sh" dir="/apps/node-apps/${vDirName}/">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'yarn -C /apps/node-apps/${vDirName}/ '"/>
+            <arg value="yarn"/>
         </exec>
-	<exec executable="/bin/sh">
+	    <exec executable="/bin/sh" dir="/apps/node-apps/${vDirName}/">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'yarn -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
+            <arg value="yarn install http-server"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -64,7 +64,7 @@
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'yarn -C /apps/node-apps/${dirName}/ run yarn:dev'"/>
+            <arg value="yarn run yarn:dev'"/>
         </exec>
 
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
