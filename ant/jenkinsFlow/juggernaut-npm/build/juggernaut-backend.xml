@@ -26,6 +26,9 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
         </exec>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'cp  /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
