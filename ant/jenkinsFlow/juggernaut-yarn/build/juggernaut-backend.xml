@@ -32,9 +32,9 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="sudo su  -c 'yarn -C /apps/node-apps/${vDirName}/ '"/>
+        <exec executable="/bin/sh" dir="/apps/node-apps/${vDirName}/">
+            <arg value="-c" />
+            <arg value="sudo yarn"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
