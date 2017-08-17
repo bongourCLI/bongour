@@ -33,9 +33,9 @@
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cp -R /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
         </exec>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="su - pm2 -c 'yarn -C /apps/node-apps/ '"/>
+        <exec executable="/bin/sh" dir="/apps/node-apps/">
+            <arg value="-c" />
+            <arg value="yarn"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -98,7 +98,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+            <arg value="su - pm2 -c 'yarn -C /apps/node-apps/${vDirName}/ '"/>
         </exec>
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -126,9 +126,6 @@
         </chown>
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
-        </chmod>
-        <chmod  perm="777" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}/uploads"/>
         </chmod>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
