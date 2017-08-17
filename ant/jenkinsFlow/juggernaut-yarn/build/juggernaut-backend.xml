@@ -18,54 +18,54 @@
             <mkdir dir="/apps/node-apps/backup" />
         </else>
         </if>
-        <mkdir dir="/apps/node-apps/${vDirName}"/>
+        <mkdir dir="/apps/test/${vDirName}"/>
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/apps/test/${vDirName}"/>
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
+            <arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/test/${vDirName}'" />
         </exec>
         <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/apps/test/${vDirName}"/>
         </chown>
          <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - pm2 -c 'cp -R /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
+            <arg value="sudo su - pm2 -c 'cp -R /apps/test/${vDirName}/package.json /apps/test/'" />
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'yarn -C /apps/node-apps/ '"/>
+            <arg value="su - pm2 -c 'yarn -C /apps/test/ '"/>
         </exec>
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${vDirName}"/>
+            <dirset dir="/apps/test/${vDirName}"/>
         </chown>
         <if>
-            <available file="/apps/node-apps/${dirName}" type="dir" />
+            <available file="/apps/test/${dirName}" type="dir" />
             <then>
-                <move todir="/apps/node-apps/backup/${dirName}${current.time}">
-                    <fileset dir="/apps/node-apps/${dirName}" defaultexcludes="no"/>
+                <move todir="/apps/test/backup/${dirName}${current.time}">
+                    <fileset dir="/apps/test/${dirName}" defaultexcludes="no"/>
                 </move>
             </then>
             <else>
                 <echo message="Directory not found...Creating directory ${dirName}"/>
             </else>
         </if>
-        <move todir="/apps/node-apps/${dirName}">
-            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
+        <move todir="/apps/test/${dirName}">
+            <fileset dir="/apps/test/${vDirName}/" defaultexcludes="no"/>
         </move>
         <chmod  perm="755" verbose="true">
-            <dirset dir="/apps/node-apps/${dirName}"/>
+            <dirset dir="/apps/test/${dirName}"/>
         </chmod>
         <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${dirName}"/>
+            <dirset dir="/apps/test/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+        <exec executable="/bin/sh" dir="/apps/test/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=dev pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
+            <arg value="su - pm2 -c 'cd /apps/test/${dirName}/; pm2 delete ${dirName}; NODE_ENV=dev pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
         <chown owner="pm2">
-            <dirset dir="/apps/node-apps/${dirName}"/>
+            <dirset dir="/apps/test/${dirName}"/>
         </chown>
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
