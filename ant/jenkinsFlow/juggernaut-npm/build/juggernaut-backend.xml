@@ -28,7 +28,7 @@
         </exec>
          <exec executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/${vDirName} /apps/node-apps/'" />
+            <arg value="sudo su - ec2-user -c 'cp -R /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
