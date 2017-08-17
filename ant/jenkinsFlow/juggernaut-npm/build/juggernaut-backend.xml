@@ -19,10 +19,9 @@
         </else>
         </if>
         <mkdir dir="/apps/node-apps/${vDirName}"/>
-         <exec executable="/bin/sh" dir="/apps/node-apps/">
-        <arg value="-c" />
-        <arg value="sudo chown -R pm2. /apps/node-apps/" />
-        </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'git clone ${repoUrl} -b ${branchName} /apps/node-apps/${vDirName}'" />
@@ -31,10 +30,19 @@
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cp  /apps/node-apps/${vDirName}/package.json /apps/node-apps/'" />
         </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/"/>
+        </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/ install'"/>
         </exec>
+        <chown owner="pm2">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
