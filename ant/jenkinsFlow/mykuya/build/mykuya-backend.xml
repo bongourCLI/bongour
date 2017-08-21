@@ -31,7 +31,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/tookan-server install'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/tookan-server/ install'"/>
         </exec>
 	
         <chown owner="ec2-user">
@@ -213,7 +213,7 @@
         </chown>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
+            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}/tookan-server/'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
