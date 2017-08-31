@@ -32,7 +32,7 @@
         </exec>
         <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install '"/>
+            <arg value="su - ec2-user -c 'npm -C /apps/node-apps/${vDirName}/ install '"/>
         </exec>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
