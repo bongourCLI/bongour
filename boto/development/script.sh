@@ -67,7 +67,7 @@ usermod -G wheel pm2
 echo "NVM installation"
 su - pm2 -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.25.0/install.sh | bash"
 su - pm2 -c "source /apps/pm2/.bashrc"
-su - pm2 -c "nvm install v4.4.7 && nvm alias default v4.4.7"
+su - pm2 -c "nvm install v7.10.0 && nvm alias default v7.10.0"
 
 echo "Enabling logrotate for pm2"
 su - pm2 -c 'sudo env PATH=$PATH:/apps/pm2/.nvm/versions/node/*/bin pm2 logrotate -u pm2'
@@ -81,11 +81,12 @@ swapon /apps/.swap
 echo "/apps/.swap    none    swap    sw    0   0"  >> /etc/fstab 
 
 echo "installing mongo"
-echo "[mongodb-org-3.2]
+echo "[mongodb-org-3.4]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/6/mongodb-org/3.2/x86_64/
-gpgcheck=0
-enabled=1" >> /etc/yum.repos.d/mongodb-org-3.2.repo
+baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc" >> /etc/yum.repos.d/mongodb-org-3.4.repo
 yum install -y mongodb-org
 sed -i.bak 's/dbPath.*/dbPath: \/apps\/mongo/g'  /etc/mongod.conf
 sed -i.bak 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
@@ -178,15 +179,16 @@ ln -s /apps/logs/var_log /var/log
 #chown -R mysql. /apps/mysql
 
 echo "Installing phpmyadmin"
-rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-rpm -e `rpm -qa | grep php`
-rpm -e `rpm -qa | grep httpd`
-yum install -y php56
-yum --enablerepo=remi install -y phpmyadmin
-sed -i 's/local/all granted/g'  /etc/httpd/conf.d/phpMyAdmin.conf
-sed -i 's/Deny from All/Allow from All/g'  /etc/httpd/conf.d/phpMyAdmin.conf
-sed -i 's/Allow from None/#Allow from None/g'  /etc/httpd/conf.d/phpMyAdmin.conf
+cd /var/www/html/
+wget https://files.phpmyadmin.net/phpMyAdmin/4.7.1/phpMyAdmin-4.7.1-all-languages.zip
+unzip phpMyAdmin-4.7.1-all-languages.zip
+mv phpMyAdmin-4.7.1-all-languages phpmyadmin
+rm -rf phpMyAdmin-4.7.1-all-languages.zip
+cd phpmyadmin/
+cp config.sample.inc.php config.inc.php
+cd libraries/
+sed -i 's|$token_mismatch = true| $token_mismatch = false|g' common.inc.php
+
 
 echo "Jenkins config"
 pushd /home/ec2-user/.ssh
