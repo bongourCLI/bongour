@@ -220,9 +220,6 @@
         </exec>
     </target>
     <target name="qaSignoff">
-        <chown owner="ec2-user">
-            <dirset dir="/apps/node-apps/${dirName}"/>
-        </chown>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
             <arg value="git branch -l"/>
@@ -233,7 +230,7 @@
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
-            <arg value="sudo su - ec2-user -c 'git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
+            <arg value="sudo su - pm2 -c 'git -C /apps/node-apps/${dirName} push origin Rel-${promotedNumber}'"/>
         </exec>
         <exec dir="/apps/node-apps/${dirName}" executable="/bin/sh">
             <arg value="-c" />
