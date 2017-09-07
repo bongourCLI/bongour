@@ -204,7 +204,7 @@
             </else>
         </if>
         <move todir="/apps/node-apps/${dirName}">
-            <fileset dir="/apps/node-apps/${vDirName}/" defaultexcludes="no"/>
+            <fileset dir="/apps/node-apps/${vDirName}" defaultexcludes="no"/>
         </move>
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
@@ -215,7 +215,7 @@
         </exec>
          <exec executable="/bin/sh">
             <arg value="-c"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ install http-server -g'"/>
         </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
