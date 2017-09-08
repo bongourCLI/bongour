@@ -6,7 +6,6 @@
              pattern="yyyyMMddHHmm"/>
 </tstamp>
 <property file="../properties/${env}.properties"/>
-
     <target name="buildEnvironment">
         <if>
             <available file="/apps/node-apps/backup" type="dir" />
@@ -56,9 +55,22 @@
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <!--<chmod  perm="777" verbose="true">-->
-        <!--    <dirset dir="/apps/node-apps/${dirName}/uploads"/>-->
-        <!--</chmod>-->
+         <if>
+            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
+            <then>
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
+                    <arg line="-R 0777 ." />
+                </exec>
+            </then>
+        </if>
+        <if>
+            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
+            <then>
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/log" failonerror="true">
+                    <arg line="-R 0777 ." />
+                </exec>
+            </then>
+        </if>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -68,7 +80,6 @@
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
         </exec>
     </target>  
-
     <target name="reDeployment">
         <echo message="Redeploying Tag ${tagName} on Live server"/>
         <if>
@@ -123,9 +134,14 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <!--<chmod  perm="777" verbose="true">-->
-        <!--    <dirset dir="/apps/node-apps/${dirName}/uploads"/>-->
-        <!--</chmod>-->
+         <if>
+            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
+            <then>
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
+                    <arg line="-R 0777 ." />
+                </exec>
+            </then>
+        </if>
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
@@ -207,9 +223,22 @@
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-        <!--<chmod  perm="777" verbose="true">-->
-        <!--    <dirset dir="/apps/node-apps/${dirName}/uploads"/>-->
-        <!--</chmod>-->
+         <if>
+            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
+            <then>
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
+                    <arg line="-R 0777 ." />
+                </exec>
+            </then>
+        </if>
+        <if>
+            <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
+            <then>
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/log" failonerror="true">
+                    <arg line="-R 0777 ." />
+                </exec>
+            </then>
+        </if>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start app.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />

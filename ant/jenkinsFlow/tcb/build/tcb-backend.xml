@@ -59,10 +59,12 @@
         <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}/uploads"/>
         </chmod>
+        
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
             <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
         </exec>
+         
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
@@ -210,6 +212,10 @@
         <chmod  perm="777" verbose="true">
             <dirset dir="/apps/node-apps/${dirName}/uploads"/>
         </chmod>
+         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
+            <arg value="-c" />
+            <arg value="sudo chown -R pm2. /apps/node-apps/${dirName}/" />
+        </exec>
         <exec executable="/bin/sh">
             <arg value="-c" />
             <arg value="sudo su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
