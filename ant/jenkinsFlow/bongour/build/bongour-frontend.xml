@@ -98,10 +98,6 @@
         <chmod  perm="755" verbose="true">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-	<exec executable="/bin/sh" dir="/var/www/html/${dirName}/">
-            <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /var/www/html/${dirName}/; pm2 delete ${dirName}; NODE_ENV=test pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
-        </exec>
     </target>
     
     <target name="prodDeployment">
@@ -171,10 +167,6 @@
         <chmod  perm="755">
             <dirset dir="/var/www/html/${dirName}"/>
         </chmod>
-	<exec executable="/bin/sh" dir="/var/www/html/${dirName}/">
-            <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /var/www/html/${dirName}/; pm2 delete ${dirName}; NODE_ENV=live pm2 start server.js --name ${dirName} --log-date-format 'YYYY-MM-DD-HH:mm-Z''" />
-        </exec>
     </target>
     <target name="qaSignoff">
         <chown owner="ec2-user">
