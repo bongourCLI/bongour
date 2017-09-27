@@ -179,15 +179,15 @@ ln -s /apps/logs/var_log /var/log
 #chown -R mysql. /apps/mysql
 
 echo "Installing phpmyadmin"
-cd /var/www/html/
-wget https://files.phpmyadmin.net/phpMyAdmin/4.7.1/phpMyAdmin-4.7.1-all-languages.zip
-unzip phpMyAdmin-4.7.1-all-languages.zip
-mv phpMyAdmin-4.7.1-all-languages phpmyadmin
-rm -rf phpMyAdmin-4.7.1-all-languages.zip
-cd phpmyadmin/
-cp config.sample.inc.php config.inc.php
-cd libraries/
-sed -i 's|$token_mismatch = true| $token_mismatch = false|g' common.inc.php
+rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -e `rpm -qa | grep php`
+rpm -e `rpm -qa | grep httpd`
+yum install -y php56
+yum --enablerepo=remi install -y phpmyadmin
+sed -i 's/local/all granted/g'  /etc/httpd/conf.d/phpMyAdmin.conf
+sed -i 's/Deny from All/Allow from All/g'  /etc/httpd/conf.d/phpMyAdmin.conf
+sed -i 's/Allow from None/#Allow from None/g'  /etc/httpd/conf.d/phpMyAdmin.conf
 
 
 echo "Jenkins config"
