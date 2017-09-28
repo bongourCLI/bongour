@@ -30,12 +30,13 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${vDirName}"/>
         </chown>
-        <exec executable="/bin/sh">
+	<exec executable="/bin/sh">
             <arg value="-c"/>
             <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
-
         </exec>
+        <chown owner="ec2-user">
+            <dirset dir="/apps/node-apps/${vDirName}"/>
+        </chown>
         <if>
             <available file="/apps/node-apps/${dirName}" type="dir" />
             <then>
@@ -56,23 +57,15 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:test'"/>
-        </exec>
-
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
-            <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start server.js --name ${dirName} '" />
         </exec>
 
          <exec executable="/bin/sh" dir="/apps/node-apps/">
             <arg value="-c" />
             <arg value="sudo chown -R pm2. /apps/node-apps/" />
         </exec>
-
-
 	<exec executable="/bin/sh" dir="/apps/node-apps/backup">
             <arg value="-c" />
             <arg value="sudo rm -rf `ls -t /apps/node-apps/backup/|awk 'NR>5'`"/>
@@ -163,6 +156,10 @@
             <arg value="-c" />
             <arg value="sudo su - ec2-user -c 'git clone -b Rel-${promotedNumber} ${repoUrl} /apps/node-apps/${vDirName}'" />
         </exec>
+	<exec executable="/bin/sh">
+            <arg value="-c"/>
+            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install'"/>
+        </exec>
 
         <chown owner="ec2-user">
             <dirset dir="/apps/node-apps/${vDirName}"/>
@@ -208,23 +205,12 @@
         <chown owner="pm2">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chown>
-        <exec executable="/bin/sh">
-            <arg value="-c"/>
-            <arg value="sudo su - pm2 -c 'npm install --prefix /apps/node-apps/${dirName}'"/>
-            <arg value="sudo su - pm2 -c 'npm -C /apps/node-apps/${vDirName}/ install http-server -g'"/>
-        </exec>
         <chmod  perm="755">
             <dirset dir="/apps/node-apps/${dirName}"/>
         </chmod>
-
         <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
             <arg value="-c" />
-            <arg value="su - pm2 -c 'npm -C /apps/node-apps/${dirName}/ run build:prod'"/>
-        </exec>
-
-        <exec executable="/bin/sh" dir="/apps/node-apps/${dirName}/">
-            <arg value="-c" />
-            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start http-server --name ${dirName} -- dist -p 3004 '" />
+            <arg value="su - pm2 -c 'cd /apps/node-apps/${dirName}/; pm2 delete ${dirName}; pm2 start server.js --name ${dirName} '" />
         </exec>
 
         <exec executable="/bin/sh" dir="/apps/node-apps/">
