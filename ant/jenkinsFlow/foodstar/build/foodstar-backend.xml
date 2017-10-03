@@ -67,7 +67,7 @@
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
-                <exec executable="chmod" dir="/apps/node-apps/${dirName}/log" failonerror="true">
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
                     <arg line="-R 0777 ." />
                 </exec>
             </then>
@@ -234,7 +234,7 @@
         <if>
             <available file="/apps/node-apps/${dirName}/uploads" type="dir" />
             <then>
-                <exec executable="chmod" dir="/apps/node-apps/${dirName}/log" failonerror="true">
+                <exec executable="chmod" dir="/apps/node-apps/${dirName}/uploads" failonerror="true">
                     <arg line="-R 0777 ." />
                 </exec>
             </then>
